@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 # filename: main.py
-import web
 import socket
+
+import web
+
 import config
-from handle import Handle
-from re_fund import Refund
+from controller.handle import Handle
+from controller.re_fund import Refund
+from controller.verify import Verify
+
 urls = (
     '/wx', 'Handle',
+    '/MP_verify_0m8uEfoC4BBB1dLi.txt', 'Verify',
     '/refund', 'Refund',
 )
 
