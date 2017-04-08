@@ -1,6 +1,6 @@
 from basic import Basic
 import urllib
 
-Class Media(object):
+class Media(object):
     def __init__(self):
         pass

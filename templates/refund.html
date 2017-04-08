@@ -1,0 +1,154 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/frozen.css">
+    <script src="/static/lib/zepto.min.js"></script>
+<script src="/static/js/frozen.js"></script>
+    <script src="/static/js/refund.js"></script>
+</head>
+<body>
+        <footer class="ui-footer ui-footer-btn">
+            <ul class="ui-tiled ui-border-t">
+                <li id="rulesBtu" class="ui-border-r"><div>活动规则</div></li>
+                <li class="ui-border-r"><div>我的奖励</div></li>
+            </ul>
+        </footer>
+
+        <section class="ui-container ui-row ui-whitespace" style="position: fixed;width: 100%;bottom: 16px;">
+                 <section  style="position: relative;bottom:-3px;">
+                      <ul class="ui-row">
+        <li class="ui-col ui-col-25">
+            <div>
+                <div class="ui-grid-halve-img" >
+                    <span style="width: 69px;height: 69px;background-image:url(/static/img/btn-upload2.png) ;"></span>
+                </div>
+            </div>
+        </li>
+        <li class="ui-col ui-col-25">
+            <div style="width: 85%;">
+                <div class="ui-grid-trisect-img">
+                    <span style="background-image:url(/static/img/demo.jpg) ;">
+                        <a class="close" href="#"></a>
+                    </span>
+                    <!--::after-->
+
+                </div>
+
+            </div>
+        </li>
+        <li class="ui-col ui-col-25">
+            <div style="width: 85%;">
+                <div class="ui-grid-trisect-img ">
+                    <span style="background-image:url(/static/img/demo.jpg) ;">
+                        <a class="close"  href="#"></a>
+                    </span>
+
+                </div>
+            </div>
+        </li>
+        <li class="ui-col ui-col-25">
+            <div style="width: 85%;">
+                <div class="ui-grid-trisect-img">
+                    <span style="background-image:url(/static/img/demo.jpg) ;">
+                        <a class="close"  href="#"></a>
+                    </span>
+
+                </div>
+            </div>
+        </li>
+        </ul>
+        </section>
+
+                    <input type="text" class="order-box" placeholder="第2步：填写或复制粘贴购物订单编号">
+
+                 <button class="ui-btn-lg ui-btn-primary" style="position: relative; top:5px">马上提交</button>
+
+             </section>
+
+<!--</div>-->
+
+<div id="mydialog" class="ui-dialog">
+    <div class="ui-dialog-cnt">
+      <header class="ui-dialog-hd ui-border-b">
+                  <h3>操作流程</h3>
+                  <i class="ui-dialog-close" data-role="button"></i>
+              </header>
+        <div class="ui-dialog-bd">
+            <div>【请在24小时内查看您的奖励并及时领取红包哦】</div>
+            <div>1、领取方式：</div>
+            <div>确认收货->->输入您的购买订单编号->上传截图->商家审核->红包发放</div>
+            <div>&nbsp</div>
+            <div>2、每人参与活动的次数有限，每天3次，每周5次，每月10次</div>
+            <div>&nbsp</div>
+            <div>3、预计红包发放时间：3个工作日内发</div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+
+<style type="text/css">
+    body{
+        background-image: url('/static/img/refund.jpg') ;
+        background-color: #9A3E3E;
+        background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    }
+
+    .order-box {
+        top: 0;
+        height: 40px;
+        width: 100%;
+        display: block;
+        margin: 20px auto 0 auto;
+        background-color: #fff;
+        color: #333;
+        border: 0;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        padding: 0 10px;
+        font-size: 16px;
+    }
+
+    .upload-btn-panel {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url(/static/img/btn-upload2.png) center center no-repeat;
+        background-size: contain;
+        overflow: hidden;
+    }
+    .upload-container {
+        position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 69px;
+    height: 69px;
+    }
+
+    #x {
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    right: -10px;
+    }
+    .close {
+    display: block;
+    position: absolute;
+    width:20px;
+    height:20px;
+    top: -2px;
+    right: -3px;
+    background: url(/static/img/Close-icon.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+ </style>
