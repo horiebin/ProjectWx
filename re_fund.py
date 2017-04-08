@@ -13,6 +13,6 @@ class Refund:
         jsapi_token = sc.get_jsapi_ticket()
         noncestr = id_generator()
         timestamp = int(time.time())
-        url = r'http://' + config['host'] + r'/refund'
+        url = r'http://' + config['server'] + r'/refund'
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
         return render.refund(appId,sign,noncestr,timestamp)

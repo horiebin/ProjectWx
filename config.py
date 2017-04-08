@@ -1,5 +1,5 @@
 config={
-    'host' : 'husonchen.com',
+    'server' : 'localhost:8080',
     'dbn' : 'mysql',
     'username' : 'projectwx_user',
     'password' : 'pw2017-03-22',
