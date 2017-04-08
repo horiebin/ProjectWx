@@ -14,6 +14,7 @@ if __name__ == '__main__':
     myname = socket.getfqdn(socket.gethostname())
     myaddr = socket.gethostbyname(myname)
     if myaddr == '10.116.10.44':
+        print('server is running on sickworm.com...')
         config.config = config.config_server
 
     app = web.application(urls, globals())
