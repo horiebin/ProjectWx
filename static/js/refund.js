@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
 
     $("#choseImgBtn").click(function () {
-        restPhoto = 0;
+        var restPhoto = 0;
         for (var id in localIds) {
             if (localIds[id] == 0)
                 restPhoto += 1;
@@ -42,22 +42,9 @@ $(document).ready(function () {
     });
 
     $('#submit').click(function () {
+        $(this).addClass('active');
         var serverIdList = Array();
-        for(id in localIds) {
-            if (localIds[id] != 0) {
-                wx.uploadImage({
-                    localId: localIds[id], // 需要上传的图片的本地ID，由chooseImage接口获得
-                    isShowProgressTips: 1, // 默认为1，显示进度提示
-                    success: function (res) {
-                        var serverId = res.serverId; // 返回图片的服务器端ID
-                        serverIdList.push(serverId);
-                    }
-                });
-            }
-        }
-        $.ajax({
-            url:"/refund/submit"
-        });
+        uploadImage(0,serverIdList);
     });
 
 
@@ -79,6 +66,40 @@ wx.error(function (res) {
 //         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
 //     }
 // });
+function uploadImage(currentId,serverIdList) {
 
+    if(currentId == 3){
+        postRequest(serverIdList);
+        return;
+    }
+    if (localIds[currentId] != 0) {
+        wx.uploadImage({
+            localId: localIds[currentId], // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: 1, // 默认为1，显示进度提示
+            success: function (res) {
+                var serverId = res.serverId; // 返回图片的服务器端ID
+                serverIdList.push(serverId);
+                //上传完再传下一张
+                uploadImage(currentId + 1,serverIdList);
+            }
+        });
+    }else{
+        uploadImage(currentId + 1,serverIdList);
+    }
+}
+function postRequest(serverIdList) {
+    var orderId = $("#orderInput").attr('value');
+    console.log('orderId: ' + orderId);
+    $.ajax({
+        type: "POST",
+        url: "/refund/submit",
+        data: {info:JSON.stringify({order_id: orderId, server_ids: serverIdList})},
+        success: function () {
+            $('#submit').removeClass('active');
+            alert('上传成功!');
+        }
+    });
+
+}
 
 

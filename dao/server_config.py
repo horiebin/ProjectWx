@@ -1,6 +1,6 @@
 from db_helper import DbHelper
 
-class ServerConfig(object):
+class ServerConfigDao(object):
     def __init__(self):
         self.table = 'server_config'
         self.db = DbHelper()
