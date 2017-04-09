@@ -2,13 +2,13 @@ import web
 from dao.server_config import ServerConfig
 from util.wx_algorithms import *
 import time
-
+from config import Config
 render = web.template.render('templates/')
 
 class Refund:
     def GET(self):
         sc = ServerConfig()
-        from config import config
+        config = Config()
         appId = config['appId']
         jsapi_token = sc.get_jsapi_ticket()
         noncestr = id_generator()
