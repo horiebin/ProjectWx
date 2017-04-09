@@ -6,6 +6,16 @@ $(document).ready(function () {
         $(".ui-dialog").dialog("show");
     });
 
+    $('#historyBtn').click(function () {
+       location.href = '/refund/history';
+    });
+    $('#orderInput').on("focus", function () {
+            $('.model2').css("height", "200px");
+            $('.model2').css("margin-top", "-20%");
+            $('#ff').css("margin-top", "5%");
+        }
+    )
+
     $("#choseImgBtn").click(function () {
         var restPhoto = 0;
         for (var id in localIds) {
@@ -26,6 +36,9 @@ $(document).ready(function () {
                         $("#img" + i).attr('src', nowSelectedIds[tempId]);
                         $("#img" + i).parent().removeAttr('hidden');
                         tempId += 1;
+                    }
+                    if (tempId == nowSelectedIds.length) {
+                        break;
                     }
                 }
 

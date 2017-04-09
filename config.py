@@ -28,11 +28,11 @@ class Config(object):
     config_develop = {
         'server': 'sickworm.com',
         'dbn': 'mysql',
-        'username': 'projectwx_user',
-        'password': 'pw2017-03-22',
-        'dbname': 'projectwx',
+        'username': 'xiaob',
+        'password': 'skdfjkasdf',
+        'dbname': 'xiaob',
         'host': 'localhost',
-        'port': 3306,
+        'port': 3307,
         'appId': 'wx87ea3850b33bdfcb',
     }
 

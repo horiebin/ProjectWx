@@ -4,6 +4,7 @@ from util.wx_algorithms import *
 import time
 from config import Config
 from dao.user_upload import UserUploadDao
+from dao.verify_refund import VerifyRefundDao
 import json
 
 render = web.template.render('templates/')
@@ -39,3 +40,11 @@ class RefundSubmit:
         else:
             userUploadDao.insert(0, orderId, serverIds[0], serverIds[1], serverIds[2])
 
+class RefundHistory():
+    def GET(self):
+        openId = 0
+        userUploadDao = UserUploadDao()
+        unVerifyRecords = userUploadDao.selectByOpenId(openId)
+        verifyRefundDao = VerifyRefundDao()
+        verifyRecords = verifyRefundDao.selectByOpenId(openId)
+        return render.history(unVerifyRecords,verifyRecords)

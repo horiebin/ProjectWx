@@ -10,3 +10,9 @@ class UserUploadDao(object):
                        image1_id=imageId1,image2_id=imageId2,image3_id=imageId3,
                        create_time=None,update_time=None)
         return True
+
+    def selectByOpenId(self,openId):
+        val = {'openId':openId}
+        rows = self.db.select(self.table,where='open_id=$openId and del_flag=0 and verify_flag=0',
+                              vars=val,order='create_time desc',limit=10)
+        return rows
