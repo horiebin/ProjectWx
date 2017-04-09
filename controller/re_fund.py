@@ -28,7 +28,7 @@ class RefundSubmit:
         data = json.loads(data.info);
         serverIds = data['server_ids']
         orderId = data['order_id']
-        print(serverIds)
+
         userUploadDao = UserUploadDao()
         if len(serverIds) == 0:
             userUploadDao.insert(0, orderId);
