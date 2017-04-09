@@ -16,3 +16,9 @@ class Refund:
         url = r'http://' + config['server'] + r'/refund'
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
         return render.refund(appId,sign,noncestr,timestamp)
+
+class RefundSubmit:
+    def GET(self):
+        data = web.input()
+        if len(data) == 0:
+            return 'Hello, this is submit'
