@@ -15,7 +15,7 @@ class Config(object):
     }
 
     config_server = {
-        'server': 'sickworm.com',
+        'server': 'wx.sickworm.com',
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',
@@ -26,7 +26,7 @@ class Config(object):
     }
 
     config_develop = {
-        'server': 'sickworm.com',
+        'server': 'wx.sickworm.com',
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',
