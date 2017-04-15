@@ -14,7 +14,7 @@ from controller.verify import Verify
 
 urls = (
     '/wx', 'Handle',
-    '/MP_verify_0m8uEfoC4BBB1dLi.txt', 'MP_verify_pAX8px3b13vFvntk.txt',
+    '/MP_verify_pAX8px3b13vFvntk.txt', 'Verify',
     '/refund', 'Refund',
     '/refund/submit', 'RefundSubmit',
     '/refund/history', 'RefundHistory',
