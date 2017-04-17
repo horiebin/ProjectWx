@@ -36,13 +36,17 @@ class RefundSubmit:
         openId = data['open_id']
         userUploadDao = UserUploadDao()
         if len(serverIds) == 0:
-            userUploadDao.insert(shopId,openId, orderId)
+            res = userUploadDao.insert(shopId,openId, orderId)
         elif len(serverIds) == 1:
-            userUploadDao.insert(shopId,openId, orderId, serverIds[0])
+            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0])
         elif len(serverIds) == 2:
-            userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1])
+            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1])
         else:
-            userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1], serverIds[2])
+            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1], serverIds[2])
+        if res:
+            return 'true'
+        else:
+            return 'false'
 
 class RefundHistory():
     def GET(self):
