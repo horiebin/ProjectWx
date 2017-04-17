@@ -122,10 +122,13 @@ function postRequest(serverIdList) {
         success: function (data) {
             if(data == 'true'){
                 alert('上传成功!');
+                $('.close').trigger("click");
+                $('#orderInput').val('') ;
             }else{
                 alert('请勿重复上传单号');
             }
             $('#submit').removeClass('active');
+
         }
     });
 
