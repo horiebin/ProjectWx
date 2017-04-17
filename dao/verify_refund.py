@@ -1,5 +1,8 @@
 from db_helper import DbHelper
 
+from util.class_decorator import singleton
+
+@singleton
 class VerifyRefundDao(object):
     def __init__(self):
         self.table = 'verify_refund'

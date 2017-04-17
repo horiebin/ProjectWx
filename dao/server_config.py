@@ -1,5 +1,7 @@
 from db_helper import DbHelper
+from util.class_decorator import singleton
 
+@singleton
 class ServerConfigDao(object):
 
     def __init__(self):
@@ -40,7 +42,7 @@ class ServerConfigDao(object):
         return row.v
 
     def getAppId(self):
-        return self.getGlobalByKey('app_id')
+        return self.config['app_id']
 
     def getAppSecret(self):
-        return self.getGlobalByKey('app_secret')
+        return self.config['app_secret']

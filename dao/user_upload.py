@@ -1,5 +1,7 @@
 from db_helper import DbHelper
+from util.class_decorator import singleton
 
+@singleton
 class UserUploadDao(object):
     def __init__(self):
         self.table = 'user_upload'
