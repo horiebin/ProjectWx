@@ -54,6 +54,14 @@ $(document).ready(function () {
     $('#submit').click(function () {
         $(this).addClass('active');
         var serverIdList = Array();
+
+        var orderId = $("#orderInput").attr('value');
+        if(orderId.length != 16){
+            alert('请输入正确长度的订单号');
+            $('#submit').removeClass('active');
+            return;
+        }
+
         uploadImage(0,serverIdList);
     });
 
