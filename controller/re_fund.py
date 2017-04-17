@@ -15,7 +15,7 @@ class Refund:
         jsapi_token = ServerConfigDao().get_jsapi_ticket()
         noncestr = id_generator()
         timestamp = int(time.time())
-        url = web.ctx.home + web.ctx.fullpath
+        url = r'http://'+Config()['server'] + web.ctx.fullpath
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
         data = web.input()
         code = data.code

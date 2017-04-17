@@ -1,7 +1,7 @@
 localIds = [0, 0, 0];
 $(document).ready(function () {
     console.log('jquery ready')
-    // $(".ui-dialog").dialog("show");
+    $(".ui-dialog").dialog("show");
     $("#rulesBtu").click(function () {
         $(".ui-dialog").dialog("show");
     });
