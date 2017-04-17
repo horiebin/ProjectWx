@@ -22,15 +22,15 @@ urls = (
     '/refund/oauth','RefundOauth',
 )
 
-def session_hook():
-    web.ctx.session = session
+# def session_hook():
+#     web.ctx.session = session
 
 
 if __name__ == '__main__':
-    # cron.flush_token.start_flush_timer()
+    cron.flush_token.start_flush_timer()
     app = web.application(urls, globals())
-    session = web.session.Session(app, web.session.DiskStore('sessions'),
-                                  initializer={})
-    app.add_processor(web.loadhook(session_hook))
+    # session = web.session.Session(app, web.session.DiskStore('sessions'),
+    #                               initializer={})
+    # app.add_processor(web.loadhook(session_hook))
     app.run()
 
