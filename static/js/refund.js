@@ -6,9 +6,9 @@ $(document).ready(function () {
         $(".ui-dialog").dialog("show");
     });
 
-    $('#historyBtn').click(function () {
-       location.href = '/refund/history';
-    });
+    // $('#historyBtn').click(function () {
+    //    location.href = '/refund/history';
+    // });
     $('#orderInput').on("focus", function () {
             $('.model2').css("height", "200px");
             $('.model2').css("margin-top", "-20%");
@@ -102,11 +102,13 @@ function uploadImage(currentId,serverIdList) {
 }
 function postRequest(serverIdList) {
     var orderId = $("#orderInput").attr('value');
+    var openId = $("#orderInput").attr('openId')
+    var shopId = $("#orderInput").attr('shopId')
     console.log('orderId: ' + orderId);
     $.ajax({
         type: "POST",
         url: "/refund/submit",
-        data: {info:JSON.stringify({order_id: orderId, server_ids: serverIdList})},
+        data: {info:JSON.stringify({shop_id:shopId, open_id:openId,order_id: orderId, server_ids: serverIdList})},
         success: function () {
             $('#submit').removeClass('active');
             alert('上传成功!');
