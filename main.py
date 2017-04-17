@@ -4,7 +4,7 @@ import socket
 
 import web
 
-import config
+import cron.flush_token
 from controller.handle import Handle
 from controller.re_fund import Refund
 from controller.re_fund import RefundSubmit
@@ -21,5 +21,7 @@ urls = (
 )
 
 if __name__ == '__main__':
+    cron.flush_token.start_flush_timer()
     app = web.application(urls, globals())
     app.run()
+

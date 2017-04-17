@@ -11,10 +11,9 @@ render = web.template.render('templates/')
 
 class Refund:
     def GET(self):
-        sc = ServerConfigDao()
         config = Config()
-        appId = config['appId']
-        jsapi_token = sc.get_jsapi_ticket()
+        appId = ServerConfigDao().getAppId()
+        jsapi_token = ServerConfigDao().get_jsapi_ticket()
         noncestr = id_generator()
         timestamp = int(time.time())
         url = r'http://' + config['server'] + r'/refund'
