@@ -1,4 +1,4 @@
-$def with (unVerifyRecords,verifyRecords)
+$def with (uploads)
 <html >
 <head>
     <meta charset="UTF-8">
@@ -18,20 +18,16 @@ $def with (unVerifyRecords,verifyRecords)
     </tr>
     </thead>
     <tbody>
-    $for record in unVerifyRecords:
-        <tr>
-            <td>$record.order_id</td>
-            <td>未审核</td>
-            <td>$record.create_time</td>
-        </tr>
-    $for record in verifyRecords:
+    $for record in uploads:
         <tr>
             <td>$record.order_id</td>
             $if record.verify_flag == 0 :
+                <td>未审核</td>
+            $elif record.verify_flag == 1:
                 <td>通过</td>
             $else:
                 <td>不通过</td>
-            <td>$record.update_time</td>
+            <td>$record.create_time</td>
         </tr>
     </tbody>
 </table>
