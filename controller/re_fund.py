@@ -54,10 +54,8 @@ class RefundHistory():
         openId = data.openId
         shopId = data.shopId
         userUploadDao = UserUploadDao()
-        unVerifyRecords = userUploadDao.selectByOpenId(shopId,openId)
-        verifyRefundDao = VerifyRefundDao()
-        verifyRecords = verifyRefundDao.selectByOpenId(shopId,openId)
-        return render.history(unVerifyRecords,verifyRecords)
+        uploads = userUploadDao.selectByOpenId(shopId,openId)
+        return render.history(uploads)
 
 class RefundOauth():
     def GET(self):
