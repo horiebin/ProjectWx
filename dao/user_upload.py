@@ -21,3 +21,8 @@ class UserUploadDao(object):
         rows = self.db.select(self.table,where='shop_id=$shopId and open_id=$openId and del_flag=0 and verify_flag=0',
                               vars=val,order='create_time desc',limit=10)
         return rows
+
+    def selectByPage(self,start_idx,page_size):
+        val = {'startId':start_idx}
+        rows = self.db.select(self.table,where='del_flag=0 and id>=$startId',vars=val,order='id asc',limit=page_size)
+        return rows
