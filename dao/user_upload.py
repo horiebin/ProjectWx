@@ -18,7 +18,7 @@ class UserUploadDao(object):
 
     def selectByOpenId(self,shopid,openId):
         val = {'shopId':shopid,'openId':openId}
-        rows = self.db.select(self.table,where='shop_id=$shopId and open_id=$openId and del_flag=0 and verify_flag!=1',
+        rows = self.db.select(self.table,where='shop_id=$shopId and open_id=$openId and del_flag=0 ',
                               vars=val,order='create_time desc',limit=10)
         return rows
 
