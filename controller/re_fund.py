@@ -35,7 +35,10 @@ class RefundSubmit:
         shopId = data['shop_id']
         openId = data['open_id']
         userUploadDao = UserUploadDao()
-        if len(serverIds) == 0:
+	# code By xiaobin
+        if not userUploadDao.verifyByOrderID(orderId):
+            return 'false'
+        elif len(serverIds) == 0:
             res = userUploadDao.insert(shopId,openId, orderId)
         elif len(serverIds) == 1:
             res = userUploadDao.insert(shopId,openId, orderId, serverIds[0])

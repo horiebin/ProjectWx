@@ -1,11 +1,20 @@
 # -*- coding: utf-8 -*-
 # filename: handle.py
-
+from django.http import HttpRequest
 import hashlib
 import web
 
 class Handle(object):
-    def GET(self):
+    def POST(self):
+        data = web.input()
+        print 'post'
+        if len(data) == 0:
+            return 'hello, this is handle view'
+            print "nothing received"
+        else:
+            print data 
+            print 'something' 
+    def GET(self): 
         try:
             data = web.input()
             if len(data) == 0:

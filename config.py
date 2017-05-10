@@ -17,7 +17,7 @@ class Config(object):
     }
 
     config_server = {
-        'server': 'wx.sickworm.com',
+        'server': 'we.xwpay.sickworm.com',
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',

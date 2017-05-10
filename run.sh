@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-BASE=/home/huson/ProjectWx
+BASE=/home/huson/we.xwpay.sickworm.com
 PID=$BASE/app.pid
 LOG=$BASE/app.log
 ERROR=$BASE/app-error.log
 
-PORT=8080
+PORT=8084
 CMD="/usr/bin/python $BASE/main.py"
 COMMAND="$CMD $PORT"
 

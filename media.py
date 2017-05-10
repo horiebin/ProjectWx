@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from basic import Basic
 import urllib
 
@@ -30,13 +31,13 @@ class Media(object):
      count: 0-20
      offset
     '''
-    def get_media_list(self, media_type, offset, count, access_token):
+    def get_media_list(self, access_token):
         postUrl = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=%s" % accessToken
         postData = r"""
                     {
-                        \"type\": """+media_type+r""",
-                        \"offset\":"""+offset+r""",
-                        \"count\": """+count+r"""
+                        "type": "news",
+                        "offset":0,
+                        "count":3 
                     }
                    """
         if isinstance(postData, unicode):
@@ -48,4 +49,4 @@ if __name__ == '__main__':
     myMedia=Media()
     accessToken = Basic().get_access_token()
 
-    myMedia.get_media_list("news",0,1, accessToken)
+    myMedia.get_media_list( accessToken)
