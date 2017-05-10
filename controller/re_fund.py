@@ -5,6 +5,9 @@ import time
 from config import Config
 from dao.user_upload import UserUploadDao
 from dao.verify_refund import VerifyRefundDao
+from dao.order_ids import OrderIdsDao
+from dao.shop_setting import ShopSettingDao
+from dao.log_change_money import LogShopMoneyDao
 import json
 
 render = web.template.render('templates/')
@@ -35,9 +38,17 @@ class RefundSubmit:
         shopId = data['shop_id']
         openId = data['open_id']
         userUploadDao = UserUploadDao()
-	# code By xiaobin
-        if not userUploadDao.verifyByOrderID(orderId):
-            return 'false'
+
+        shopSetting = ShopSettingDao().getSetting(shopid=shopId)
+        if shopSetting['filter_orderid_flag'] == 1:
+            # open filter function
+            if not OrderIdsDao().verifyByOrderID(orderId):
+                return 'wrong'
+
+        if shopSetting['auto_pass_flag'] == 1:
+            # only save basic information
+            res = userUploadDao.insertAutoPass(shopId, openId, orderId)
+
         elif len(serverIds) == 0:
             res = userUploadDao.insert(shopId,openId, orderId)
         elif len(serverIds) == 1:
@@ -46,7 +57,12 @@ class RefundSubmit:
             res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1])
         else:
             res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1], serverIds[2])
+
         if res:
+            if shopSetting['auto_pass_flag'] == 1:
+                # save pass record in another table
+                money = LogShopMoneyDao().getMoneyByShopId(shopid=shopId)
+                VerifyRefundDao().insertVerifyRefund(shopId,openId,orderId,money)
             return 'true'
         else:
             return 'false'

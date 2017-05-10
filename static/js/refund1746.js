@@ -124,6 +124,8 @@ function postRequest(serverIdList) {
                 alert('上传成功!');
                 $('.close').trigger("click");
                 $('#orderInput').val('') ;
+            }else if(data == 'wrong'){
+                alert('订单号不存在！');
             }else{
                 alert('请勿重复上传单号');
             }

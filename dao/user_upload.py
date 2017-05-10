@@ -18,6 +18,14 @@ class UserUploadDao(object):
             return False
         return True
 
+    def insertAutoPass(self,shopid, openId, orderId):
+        try:
+            self.db.insert(self.table,shop_id=shopid,open_id=openId,order_id=orderId,
+                           verify_flag=1,accept_flag=0,create_time=None, update_time=None)
+        except :
+            return False
+        return True
+
     def selectByOpenId(self,shopid,openId):
         val = {'shopId':shopid,'openId':openId}
         rows = self.db.select(self.table, where='shop_id=$shopId and open_id=$openId and del_flag=0 ',
@@ -26,13 +34,6 @@ class UserUploadDao(object):
 
     def selectByPage(self,start_idx,page_size):
         val = {'startId':start_idx}
-        rows = self.db.select(self.table,where='del_flag=0 and id>=$startId',vars=val,order='id asc',limit=page_size)
+        rows = self.db.select(self.table,where='verify_flag=0 and del_flag=0 and id>=$startId',vars=val,order='id asc',limit=page_size)
         return rows
-        
-    def verifyByOrderID(self, orderid):
-        val = {'orderId': orderid}
-        rows = self.db.select(self.table, where='order_id=$orderId', vars=val)
-        if rows:
-            return True
-        else:
-            return False
+

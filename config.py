@@ -29,7 +29,7 @@ class Config(object):
     }
 
     config_develop = {
-        'server': 'wx.sickworm.com',
+        'server': 'we.xwpay.sickworm.com',
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',

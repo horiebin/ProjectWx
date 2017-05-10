@@ -13,3 +13,7 @@ class VerifyRefundDao(object):
         val = {'shopId':shopid,'openId':openId}
         rows = self.db.select(self.table,where='shop_id=$shopId and open_id=$openId',vars=val,order='update_time desc',limit=30)
         return rows
+
+    def insertVerifyRefund(self,shopId,openId,orderId,money):
+        self.db.insert(self.table,shop_id=shopId,open_id=openId,order_id=orderId,money=money)
+        return True
