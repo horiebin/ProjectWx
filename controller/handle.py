@@ -15,7 +15,7 @@ class Handle(object):
             return 'hello, this is handle view'
             print "nothing received"
         else:
-	    print data
+            print data
             try:
                 xml = ET.fromstring(data)
                 Event = xml.find('Event').text

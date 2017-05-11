@@ -42,6 +42,6 @@ def addShopTagToUser(open_id,shop_tag_id):
     data = {'openid_list':[open_id],'tagid':shop_tag_id}
     payload = json.dumps(data)
     s = requests.post(target,data=payload)
-    res = json.loads(s)
+    res = json.loads(s.text)
     if res['errcode'] != 0:
-        print 'adding tag error:', s
+        print 'adding tag error:', s.text
