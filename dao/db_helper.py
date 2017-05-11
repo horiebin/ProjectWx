@@ -20,4 +20,3 @@ class DbHelper(object):
 
     def update(self,*args,  **kw):
         return self.db.update(*args, **kw)
-

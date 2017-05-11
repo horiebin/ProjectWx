@@ -4,23 +4,29 @@ from django.http import HttpRequest
 import hashlib
 import web
 import xml.etree.ElementTree as ET
+from dao.user_belong import UserBelongDao
+
 import sys
 class Handle(object):
-    def PUT(self):
-        data = web.data()
-        print data
     def POST(self):
         data = web.data()
         if len(data) == 0:
             return 'hello, this is handle view'
             print "nothing received"
         else:
-	    print(data)
-            xml = ET.fromstring(data)
-            EventKey = xml.find('EventKey')
-            print EventKey 
-            print 'something'
-            sys.stdout.flush() 
+            try:
+                xml = ET.fromstring(data)
+                Event = xml.find('Event').text[9:-2]
+                if Event != 'subscribe':
+                    return 'hello wx'
+                EventKey = xml.find('EventKey').text[9:-2]
+                shop_id = int(EventKey)
+                FromUserName = xml.find('FromUserName').text[9:-2]
+                open_id = FromUserName
+                UserBelongDao().insertOnUpdate(open_id,shop_id)
+            except :
+                print "Unexpected error:", sys.exc_info()[0]
+            sys.stdout.flush()
     def GET(self): 
         try:
             data = web.input()
