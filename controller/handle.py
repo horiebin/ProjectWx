@@ -29,7 +29,7 @@ class Handle(object):
                 # add user to db
                 UserBelongDao().insertOnUpdate(open_id,shop_id)
                 # add tag to wx
-                addShopTagToUser(open_id,shop_id)
+                addShopTagToUser(open_id,shopSetting['wx_tag_id'])
             except :
                 print "Unexpected error:", sys.exc_info()[0]
     def GET(self): 
