@@ -43,8 +43,9 @@ def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     stringSignTemp = stringA + "&key="+pay_key
 
     print stringSignTemp
-    h = hashlib.md5(stringSignTemp.decode('utf-8').encode('latin1'))
+    h = hashlib.md5(stringSignTemp.encode('utf-8'))
     sign = h.hexdigest().upper()
+    print sign
     # sign_str = sign(data,pay_key)
     data['sign'] = sign
     xml = dicttoxml(data, custom_root='xml', attr_type=False)
