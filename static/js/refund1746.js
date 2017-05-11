@@ -56,7 +56,11 @@ $(document).ready(function () {
         var serverIdList = Array();
 
         var orderId = $("#orderInput").attr('value');
-
+        if(orderId.length == 0){
+            alert('请输入订单号');
+            $('#submit').removeClass('active');
+            return;
+        }
         uploadImage(0,serverIdList);
     });
 

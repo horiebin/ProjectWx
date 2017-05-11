@@ -17,3 +17,12 @@ class VerifyRefundDao(object):
     def insertVerifyRefund(self,shopId,openId,orderId,money):
         self.db.insert(self.table,shop_id=shopId,open_id=openId,order_id=orderId,money=money)
         return True
+
+
+    def selectByPage(self,page_size):
+        rows = self.db.select(self.table,where='refund_flag=0 and del_flag=0',order='id asc',limit=page_size)
+        return rows
+
+    def setRefundFlag(self,id):
+        val = {'id':id}
+        self.db.update(self.table,where='id=$id',vars=val,refund_flag=1)
