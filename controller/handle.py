@@ -8,9 +8,6 @@ from dao.user_belong import UserBelongDao
 
 import sys
 class Handle(object):
-    def PUT(self):
-        data = web.data()
-        print 'from put:',data
     def POST(self):
         data = web.data()
         if len(data) == 0:
@@ -20,20 +17,16 @@ class Handle(object):
 	    print data
             try:
                 xml = ET.fromstring(data)
-                print(xml.find('Event').text)
-				
-                Event = xml.find('Event').text[9:-2]
-		print Event                
-		if Event != 'subscribe':
+                Event = xml.find('Event').text
+                if Event != 'subscribe':
                     return 'hello wx'
-                EventKey = xml.find('EventKey').text[9:-2]
+                EventKey = xml.find('EventKey').text
                 shop_id = int(EventKey)
-                FromUserName = xml.find('FromUserName').text[9:-2]
+                FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
                 UserBelongDao().insertOnUpdate(open_id,shop_id)
             except :
                 print "Unexpected error:", sys.exc_info()[0]
-            sys.stdout.flush()
     def GET(self): 
         try:
             data = web.input()
