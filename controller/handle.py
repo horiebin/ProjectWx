@@ -20,8 +20,8 @@ class Handle(object):
                 Event = xml.find('Event').text
                 if Event != 'subscribe':
                     return 'hello wx'
-                EventKey = xml.find('EventKey').text
-                shop_id = int(EventKey)
+                EventKey = xml.find('EventKey').text.split('|')[0]
+                shop_id = int(EventKey[8:-1])
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
                 UserBelongDao().insertOnUpdate(open_id,shop_id)
