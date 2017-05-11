@@ -6,6 +6,7 @@ from dao.server_config import ServerConfigDao
 import web
 import urllib
 import json
+import requests
 
 def id_generator(size=16, chars=string.ascii_letters + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -34,3 +35,13 @@ def getOpenIdByCode(code):
     urlResp = urllib.urlopen(url)
     urlResp = json.loads(urlResp.read())
     return urlResp['openid']
+
+def addShopTagToUser(open_id,shop_tag_id):
+    accessToken = ServerConfigDao().get_access_token()
+    target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=%s' % accessToken
+    data = {'openid_list':[open_id],'tagid':shop_tag_id}
+    payload = json.dumps(data)
+    s = requests.post(target,data=payload)
+    res = json.loads(s)
+    if res['errcode'] != 0:
+        print 'adding tag error:', s

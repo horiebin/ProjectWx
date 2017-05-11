@@ -5,7 +5,8 @@ import hashlib
 import web
 import xml.etree.ElementTree as ET
 from dao.user_belong import UserBelongDao
-
+from dao.shop_setting import ShopSettingDao
+from util.wx_algorithms import *
 import sys
 class Handle(object):
     def POST(self):
@@ -21,10 +22,14 @@ class Handle(object):
                 if Event != 'subscribe':
                     return 'hello wx'
                 EventKey = xml.find('EventKey').text.split('|')[0]
-                shop_id = int(EventKey[8:-1])
+                shop_id = int(EventKey[8:])
+                shopSetting = ShopSettingDao().getSetting(shop_id)
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
+                # add user to db
                 UserBelongDao().insertOnUpdate(open_id,shop_id)
+                # add tag to wx
+                addShopTagToUser(open_id,shop_id)
             except :
                 print "Unexpected error:", sys.exc_info()[0]
     def GET(self): 
