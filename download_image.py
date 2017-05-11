@@ -12,7 +12,7 @@ def downloadByAccessTokenAndMediaId(accessToken,mediaId):
     urllib.urlretrieve(url, "%s/%s.jpg" % (targetDir,mediaId))
 
 def start_download():
-    access_token = ServerConfigDao().get_access_token()
+    access_token = ServerConfigDao().getGlobalByKey('access_token')
     file = open('current.id','r+')
     # once 100 images
     line = file.readline()

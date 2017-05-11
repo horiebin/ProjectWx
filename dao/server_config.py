@@ -49,3 +49,6 @@ class ServerConfigDao(object):
 
     def getAppSecret(self):
         return self.config['app_secret']
+
+    def __getitem__(self, key):
+        return self.config[key]
