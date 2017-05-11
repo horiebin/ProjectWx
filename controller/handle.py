@@ -3,17 +3,24 @@
 from django.http import HttpRequest
 import hashlib
 import web
-
+import xml.etree.ElementTree as ET
+import sys
 class Handle(object):
+    def PUT(self):
+        data = web.data()
+        print data
     def POST(self):
-        data = web.input()
-        print 'post'
+        data = web.data()
         if len(data) == 0:
             return 'hello, this is handle view'
             print "nothing received"
         else:
-            print data 
-            print 'something' 
+	    print(data)
+            xml = ET.fromstring(data)
+            EventKey = xml.find('EventKey')
+            print EventKey 
+            print 'something'
+            sys.stdout.flush() 
     def GET(self): 
         try:
             data = web.input()
