@@ -19,10 +19,14 @@ class Handle(object):
             try:
                 xml = ET.fromstring(data)
                 Event = xml.find('Event').text
-                if Event != 'subscribe':
+                if Event != 'subscribe' and Event != 'SCAN':
                     return 'hello wx'
-                EventKey = xml.find('EventKey').text.split('|')[0]
-                shop_id = int(EventKey[8:])
+                if Event == 'subscribe':
+                    EventKey = xml.find('EventKey').text.split('|')[0]
+                    shop_id = int(EventKey[8:])
+                if Event == 'SCAN':
+                    EventKey = xml.find('EventKey').text
+                    shop_id = int(EventKey)
                 shopSetting = ShopSettingDao().getSetting(shop_id)
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
