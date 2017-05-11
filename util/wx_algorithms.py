@@ -45,3 +45,23 @@ def addShopTagToUser(open_id,shop_tag_id):
     res = json.loads(s.text)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
+
+def getUserTags(open_id):
+    accessToken = ServerConfigDao().get_access_token()
+    target = r'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s' %accessToken
+    data = {'openid':open_id}
+    payload = json.dumps(data)
+    s = requests.post(target,data=payload)
+    res = json.loads(s.text)
+    tags = res['tagid_list']
+
+
+def deleteUserTag(open_id,tag):
+    accessToken = ServerConfigDao().get_access_token()
+    target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=%s' %accessToken
+    data = {'openid_list':[open_id],'tagid':tag}
+    payload = json.dumps(data)
+    s = requests.post(target,data=payload)
+    res = json.loads(s.text)
+    if res['errcode'] != 0:
+        print 'adding tag error:', s.text

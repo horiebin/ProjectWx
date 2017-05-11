@@ -32,6 +32,9 @@ class Handle(object):
                 open_id = FromUserName
                 # add user to db
                 UserBelongDao().insertOnUpdate(open_id,shop_id)
+                tags = getUserTags(open_id)
+                for tag in tags:
+                    deleteUserTag(open_id,tag)
                 # add tag to wx
                 addShopTagToUser(open_id,shopSetting['wx_tag_id'])
             except :
