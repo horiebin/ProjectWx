@@ -8,16 +8,23 @@ from dao.user_belong import UserBelongDao
 
 import sys
 class Handle(object):
+    def PUT(self):
+        data = web.data()
+        print 'from put:',data
     def POST(self):
         data = web.data()
         if len(data) == 0:
             return 'hello, this is handle view'
             print "nothing received"
         else:
+	    print data
             try:
                 xml = ET.fromstring(data)
+                print(xml.find('Event').text)
+				
                 Event = xml.find('Event').text[9:-2]
-                if Event != 'subscribe':
+		print Event                
+		if Event != 'subscribe':
                     return 'hello wx'
                 EventKey = xml.find('EventKey').text[9:-2]
                 shop_id = int(EventKey)

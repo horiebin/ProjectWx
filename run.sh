@@ -6,7 +6,7 @@ LOG=$BASE/app.log
 ERROR=$BASE/app-error.log
 
 PORT=8084
-CMD="/usr/bin/python $BASE/main.py"
+CMD="/usr/bin/python -u $BASE/main.py"
 COMMAND="$CMD $PORT"
 
 USR=huson
