@@ -54,6 +54,7 @@ def getUserTags(open_id):
     s = requests.post(target,data=payload)
     res = json.loads(s.text)
     tags = res['tagid_list']
+    return tags
 
 
 def deleteUserTag(open_id,tag):
