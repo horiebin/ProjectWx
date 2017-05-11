@@ -109,11 +109,7 @@ function postRequest(serverIdList) {
     var orderId = $("#orderInput").attr('value');
     var openId = $("#orderInput").attr('openId');
     var shopId = $("#orderInput").attr('shopId');
-    if(orderId.length != 16){
-        alert('请输入正确长度的订单号');
-        $('#submit').removeClass('active');
-        return;
-    }
+
     console.log('orderId: ' + orderId);
     $.ajax({
         type: "POST",
