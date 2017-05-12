@@ -51,7 +51,7 @@ def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     xml = dicttoxml(data, custom_root='xml', attr_type=False)
     print xml
     url = r'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
-    s = requests.post(url=url,data=xml,cert=("apiclient_cert.pem","apiclient_key.pem"))
+    s = requests.post(url=url,data=xml,cert=("../apiclient_cert.pem","../apiclient_key.pem"))
     xml = ET.fromstring(s.text.encode('utf-8'))
     code = xml.find('result_code').text
     if code == 'SUCCESS':
