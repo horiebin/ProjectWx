@@ -31,14 +31,9 @@ def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     act_name = u'红包返现'
     remark = '1'
 
-    # data = {'nonce_str':nonce_str,'mch_billno':mch_billno,'mch_id':mch_id,'wxappid':wxappid,
-    #         'send_name':send_name,'re_openid':re_openid,'total_amount':total_amount,
-    #         'total_num':total_num,'wishing':wishing,'client_ip':client_ip,'act_name':act_name,
-    #         'remark':remark}
-
     data = {'nonce_str':nonce_str,'mch_billno':mch_billno,'mch_id':mch_id,'wxappid':wxappid,
-            're_openid':re_openid,'total_amount':total_amount,
-            'total_num':total_num,'client_ip':client_ip,
+            'send_name':send_name,'re_openid':re_openid,'total_amount':total_amount,
+            'total_num':total_num,'wishing':wishing,'client_ip':client_ip,'act_name':act_name,
             'remark':remark}
 
     stringA = ''
@@ -52,14 +47,11 @@ def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     sign = h.hexdigest().upper()
     print sign
     # sign_str = sign(data,pay_key)
-    data['wishing'] = wishing
-    data['act_name'] = act_name
-    data['send_name'] =send_name
     data['sign'] = sign
     xml = dicttoxml(data, custom_root='xml', attr_type=False)
     print xml
     url = r'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
-    s = requests.post(url=url,data=xml,cert=("../pems/apiclient_cert.pem","../pems/apiclient_key.pem"))
+    s = requests.post(url=url,data=xml,cert=("../apiclient_cert.pem","../apiclient_key.pem"))
     xml = ET.fromstring(s.text.encode('utf-8'))
     code = xml.find('result_code').text
     if code == 'SUCCESS':
