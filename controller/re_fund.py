@@ -45,8 +45,8 @@ class RefundSubmit:
             # open filter function
             if not OrderIdsDao().verifyByOrderID(orderId):
                 return 'wrong'
-
-        if shopSetting['auto_pass_flag'] == 1:
+        auto_pass = shopSetting['auto_pass_flag']
+        if auto_pass == 1:
             #check money is enough
             money = LogShopMoneyDao().getMoneyByShopId(shopid=shopId)
             effectRows = ShopAccountDao().reduceMoney(shopid=shopId,money=money)
@@ -62,14 +62,17 @@ class RefundSubmit:
                     #add money back
                     ShopAccountDao().addbackMoney(shopId,money)
                     return 'false'
-        elif len(serverIds) == 0:
-            res = userUploadDao.insert(shopId,openId, orderId)
-        elif len(serverIds) == 1:
-            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0])
-        elif len(serverIds) == 2:
-            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1])
-        else:
-            res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1], serverIds[2])
+            else: # not enough money, can't auto pass
+                auto_pass = 0
+        if auto_pass == 0:
+            if len(serverIds) == 0:
+                res = userUploadDao.insert(shopId,openId, orderId)
+            elif len(serverIds) == 1:
+                res = userUploadDao.insert(shopId,openId, orderId, serverIds[0])
+            elif len(serverIds) == 2:
+                res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1])
+            else:
+                res = userUploadDao.insert(shopId,openId, orderId, serverIds[0], serverIds[1], serverIds[2])
 
         if res:
             return 'true'
