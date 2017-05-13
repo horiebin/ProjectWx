@@ -45,7 +45,7 @@ def start_download():
             start = row.id
     file.close()
 
-    #restart self every 1 mins
+    #restart self every 30 seconds
     Timer(1 * 60, start_download, ()).start()
 
 if __name__ == '__main__':
