@@ -50,7 +50,7 @@ class RefundSubmit:
             #check money is enough
             money = LogShopMoneyDao().getMoneyByShopId(shopid=shopId)
             effectRows = ShopAccountDao().reduceMoney(shopid=shopId,money=money)
-            print effectRows
+            
             if effectRows >0:
                 # only save basic information
                 res = userUploadDao.insertAutoPass(shopId, openId, orderId)
