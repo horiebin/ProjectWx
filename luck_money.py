@@ -17,6 +17,17 @@ def sign(params,pay_key):
     sign = '{}&key={}'.format(sorted_params_string, pay_key)
     return md5(sign).hexdigest().upper()
 
+def to_utf8(text):
+    if isinstance(text, unicode):
+        # unicode to utf-8
+        return text.encode('utf-8')
+    try:
+        # maybe utf-8
+        return text.decode('utf-8').encode('utf-8')
+    except UnicodeError:
+        # gbk to utf-8
+        return text.decode('gbk').encode('utf-8')
+
 def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     nonce_str = id_generator()
     mch_billno = order_id
@@ -56,10 +67,13 @@ def sendLuckyMoney(open_id,order_id,amount,mch_id,appid,send_name,pay_key):
     #data['act_name'] = act_name
     #data['send_name'] =send_name
     data['sign'] = sign
-    xml = dicttoxml(data, custom_root='xml', attr_type=False)
+
+    #xml = dicttoxml(data, custom_root='xml', attr_type=False)
+    xml = '<xml><act_name>![CDATA[%s]]</act_name><client_ip>%s</client_ip><mch_billno>%s</mch_billno><mch_id>%s</mch_id><nonce_str>%s</nonce_str><re_openid>%s</re_openid><remark>%s</remark><send_name>![CDATA[%s]]</send_name><total_amount>%s</total_amount><total_num>%s</total_num><wishing>![CDATA[%s]]</wishing><wxappid>%s</wxappid><sign>%s</sign></xml>'%(act_name,client_ip,mch_billno,mch_id,nonce_str,re_openid,remark,send_name,total_amount,total_num,wishing,wxappid,sign)
     print xml
     url = r'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
-    s = requests.post(url=url,data=xml,cert=("../pems/apiclient_cert.pem","../pems/apiclient_key.pem"))
+    headers = {'Content-Type': 'application/xml;charset=utf-8'}
+    s = requests.post(url=url,data=to_utf8(xml) ,headers = headers,cert=("../pems/apiclient_cert.pem","../pems/apiclient_key.pem"))
     xml = ET.fromstring(s.text.encode('utf-8'))
     code = xml.find('result_code').text
     if code == 'SUCCESS':
