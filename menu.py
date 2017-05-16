@@ -13,6 +13,13 @@ class Menu(object):
         urlResp = urllib.urlopen(url=postUrl, data=postData)
         print urlResp.read()
 
+    def createCondition(self, postData, accessToken):
+        postUrl = "https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=%s" % accessToken
+        if isinstance(postData, unicode):
+            postData = postData.encode('utf-8')
+        urlResp = urllib.urlopen(url=postUrl, data=postData)
+        print urlResp.read()
+
     def query(self, accessToken):
         postUrl = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s" % accessToken
         urlResp = urllib.urlopen(url=postUrl)

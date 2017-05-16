@@ -37,7 +37,7 @@ class Media(object):
                     {
                         "type": "news",
                         "offset":0,
-                        "count":3 
+                        "count":3
                     }
                    """
         if isinstance(postData, unicode):
