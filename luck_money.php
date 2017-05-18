@@ -12,6 +12,7 @@ $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("
 mysql_query("set names 'utf8'"); //UTF-8 国际标准编码.
 mysql_select_db($mysql_database); //打开数据库
 $stopFlag = false;
+$lastRow = 0;
 while(! $stopFlag){
     $config = array();
     $sql = "select * from server_config where name_space='we.xwpay.sickworm.com'";
@@ -23,12 +24,11 @@ while(! $stopFlag){
 
     $sql = 'select * from verify_refund where refund_flag=0 and del_flag=0 order by id asc limit 100';
     $result = mysql_query($sql,$conn);
-    $lastRow = 0;
     $stopFlag = true;
     while($row = mysql_fetch_array($result))
     {
 	$stopFlag = false;
-	if ($row['id'] < $lastRow){
+	if ($row['id'] <= $lastRow){
 	    $stopFlag = true;
 	    break;
 	}
