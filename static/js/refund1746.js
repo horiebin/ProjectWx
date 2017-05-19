@@ -120,7 +120,7 @@ function postRequest(serverIdList) {
                 $('.close').trigger("click");
                 $('#orderInput').val('') ;
             }else if(data == 'wrong'){
-                alert('订单号不存在！');
+                alert('订单号不存在，请核对订单号并确认收货24小时后再提交！');
             }else{
                 alert('请勿重复上传单号');
             }
