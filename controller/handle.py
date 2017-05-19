@@ -43,7 +43,6 @@ class Handle(object):
                     createTime = xml.find('CreateTime').text
                     messageContent = xml.find('Content').text
                     if messageContent == '0':
-			print '001'
                         reply =  '''
                         <xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
@@ -83,7 +82,6 @@ class Handle(object):
                         toUserName,
                         createTime
                         )
-			print '2'
                         return reply
                     elif messageContent == '1':
                         reply ='''
@@ -132,9 +130,26 @@ class Handle(object):
                         createTime
                         )
                         return reply
-			print '3'
+                    elif u'订单' in messageContent:
+                        rlyContent = '淘宝确认收货后，需要等待商家上传数据，请24小时之后点菜单栏的返现菜单进行提交。放心，每个确认的用户都可以收到红包的'
+                        reply = '''
+                        <xml>
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[%s]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>
+                        ''' % (
+                        fromUserName,
+                        toUserName,
+                        createTime,
+                        'text',
+                        rlyContent
+                        )
+                        return reply
                     else:
-                        rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价，然后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
+                        rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价，24小时之后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
                         reply = '''
                         <xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
