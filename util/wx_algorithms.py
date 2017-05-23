@@ -66,3 +66,12 @@ def deleteUserTag(open_id,tag):
     res = json.loads(s.text)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
+
+def createTag(name):
+    accessToken = ServerConfigDao().get_access_token()
+    target = r'https://api.weixin.qq.com/cgi-bin/tags/create?access_token=%s' %accessToken
+    data = {'tag':{'name':name}}
+    payload = json.dumps(data)
+    s = requests.post(target,data=payload)
+    res = json.loads(s.text)
+    return res['tag']['id']
