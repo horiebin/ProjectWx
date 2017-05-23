@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-BASE=/home/huson/we.xwpay.sickworm.com
+SCRIPT=$(readlink -f "$0")
+BASE=$(dirname "$SCRIPT")
+echo "$BASE"
 PID=$BASE/app.pid
 LOG=$BASE/app.log
 ERROR=$BASE/app-error.log
