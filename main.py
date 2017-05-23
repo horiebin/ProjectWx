@@ -10,12 +10,14 @@ from controller.re_fund import Refund
 from controller.re_fund import RefundSubmit
 from controller.re_fund import RefundHistory
 from controller.re_fund import RefundOauth
-from controller.verify import Verify
+from controller.verify import VerifyXwpay
+from controller.verify import VerifyGZChenlan
 
 
 urls = (
     '/wx', 'Handle',
-    '/MP_verify_xHfVRSc4XZjB8oTQ.txt', 'Verify',
+    '/MP_verify_xHfVRSc4XZjB8oTQ.txt', 'VerifyXwpay',
+    '/MP_verify_7DY5qAd936DYwWrL.txt', 'VerifyGZChenlan',
     '/refund', 'Refund',
     '/refund/submit', 'RefundSubmit',
     '/refund/history', 'RefundHistory',
