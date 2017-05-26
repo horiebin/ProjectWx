@@ -29,7 +29,7 @@ class Config(object):
     }
 
     config_mmd666_server = {
-        'server': 'wx.mmd666.cn',
+        'server': 'wx.51dingxiao.com',
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',
