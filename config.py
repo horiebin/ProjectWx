@@ -62,7 +62,7 @@ class Config(object):
             self.config = self.config_51dingxiao_server
         else:
             print('server is running on develop mod...configurating..')
-            self.config = self.config_mmd666_server
+            self.config = self.config_51dingxiao_server
 
         # self.config['appId'] = ServerConfigDao().getGlobalByKey('app_id')
         # self.config['appSecret'] = ServerConfigDao().getGlobalByKey('app_secret')
