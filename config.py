@@ -28,7 +28,7 @@ class Config(object):
         'appSecret': '',
     }
 
-    config_mmd666_server = {
+    config_51dingxiao_server = {
         'server': 'wx.51dingxiao.com',
         'dbn': 'mysql',
         'username': 'xiaob',
@@ -59,7 +59,7 @@ class Config(object):
             self.config = self.config_sickworm_server
         elif myname == 'iZwz9gbi9f8xfazznivbhiZ':
             print('server is running on %s ... configurating..' % myname)
-            self.config = self.config_mmd666_server
+            self.config = self.config_51dingxiao_server
         else:
             print('server is running on develop mod...configurating..')
             self.config = self.config_mmd666_server
