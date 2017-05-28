@@ -36,17 +36,21 @@ class Media(object):
         postData = r"""
                     {
                         "type": "news",
-                        "offset":0,
-                        "count":3
+                        "offset": 6,
+                        "count":1
                     }
                    """
         if isinstance(postData, unicode):
             postData = postData.encode('utf-8')
         urlResp = urllib.urlopen(url=postUrl, data=postData)
-        print urlResp.read()
+        mediaStr = urlResp.read()
+        print mediaStr
+        mediaDic = eval(mediaStr)
+        print mediaDic
+
 
 if __name__ == '__main__':
     myMedia=Media()
     accessToken = Basic().get_access_token()
 
-    myMedia.get_media_list( accessToken)
+    myMedia.get_media_list(accessToken)

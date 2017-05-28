@@ -37,7 +37,7 @@ class Handle(object):
                         deleteUserTag(open_id,tag)
                     # add tag to wx
                     addShopTagToUser(open_id,shopSetting['wx_tag_id'])
-                elif msgType == 'text':
+                elif msgType == 'text'or msgType == 'image':
                     toUserName=xml.find('ToUserName').text
                     fromUserName = xml.find('FromUserName').text
                     createTime = xml.find('CreateTime').text
@@ -131,7 +131,7 @@ class Handle(object):
                         )
                         return reply
                     elif u'订单' in messageContent:
-                        rlyContent = '淘宝确认收货后，需要等待商家上传数据，请24小时之后点菜单栏的返现菜单进行提交。放心，每个确认的用户都可以收到红包的'
+                        rlyContent = '淘宝确认收货后，在“我的淘宝”，“我的订单”，选择对应的定点，点进去之后，可以一键复制订单号'
                         reply = '''
                         <xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
@@ -149,7 +149,7 @@ class Handle(object):
                         )
                         return reply
                     else:
-                        rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价，24小时之后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
+                        rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价之后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
                         reply = '''
                         <xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
