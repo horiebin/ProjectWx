@@ -8,7 +8,7 @@ class ServerConfigDao(object):
     def __init__(self):
         self.table = 'server_config'
         self.db = DbHelper()
-        self.nameSpace = Config()['server']
+        self.nameSpace = 'wx'
         self.config = {}
         self.loadServerConfig()
 

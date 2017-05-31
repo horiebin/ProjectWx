@@ -12,7 +12,7 @@ $mysql_database='xiaob'; //
 $conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting") ; //连接数据库
 mysql_query("set names 'utf8'"); //UTF-8 国际标准编码.
 mysql_select_db($mysql_database); //打开数据库
-$sql = "select v from server_config where name_space='we.xwpay.sickworm.com' and k='access_token'";
+$sql = "select v from server_config where name_space='wx' and k='access_token'";
 $result2 = mysql_query($sql,$conn);
 $row =  mysql_fetch_row($result2);
 $access_token = $row[0];

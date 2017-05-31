@@ -108,6 +108,10 @@ function postRequest(serverIdList) {
     var orderId = $("#orderInput").attr('value');
     var openId = $("#orderInput").attr('openId');
     var shopId = $("#orderInput").attr('shopId');
+    if(serverIdList.length == 0){
+        alert('至少上传一张图片');
+        return;
+    };
 
     console.log('orderId: ' + orderId);
     $.ajax({

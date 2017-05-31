@@ -19,7 +19,7 @@ def js_signature(noncestr,jsapi_ticket,timestamp,url):
 
 def oauth2(redictUrl,scope,state):
     appId = ServerConfigDao().getAppId()
-    redictUrl = r'http://' + Config()['server'] + redictUrl
+    redictUrl = r'http://' + ServerConfigDao()['domin_name'] + redictUrl
     scope = scope
     state = state
     target = r'https://open.weixin.qq.com/connect/oauth2/authorize?' \

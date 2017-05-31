@@ -46,7 +46,7 @@ def start_download():
     file.close()
 
     #restart self every 30 seconds
-    Timer(1 * 60, start_download, ()).start()
+    Timer(1 * 1, start_download, ()).start()
 
 if __name__ == '__main__':
     start_download()

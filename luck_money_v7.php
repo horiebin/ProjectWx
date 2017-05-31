@@ -8,24 +8,23 @@ $mysql_password='skdfjkasdf'; //
  
 $mysql_database='xiaob'; //
 
-$conn=mysql_connect($mysql_server_name,$mysql_username,$mysql_password) or die("error connecting") ; //连接数据库
-mysql_query("set names 'utf8'"); //UTF-8 国际标准编码.
-mysql_select_db($mysql_database); //打开数据库
+$conn=mysqli_connect($mysql_server_name,$mysql_username,$mysql_password,$mysql_database) or die("error connecting") ; //连接数据库
+$conn->query("set names 'utf8'"); //UTF-8 国际标准编码.
 $stopFlag = false;
 $lastRow = 0;
 while(! $stopFlag){
     $config = array();
-    $sql = "select * from server_config where name_space='we.xwpay.sickworm.com'";
-    $result2 = mysql_query($sql,$conn);
-    while($row =  mysql_fetch_array($result2))
+    $sql = "select * from server_config where name_space='wx'";
+    $result2 = $conn->query($sql);
+    while($row =  $result2->fetch_assoc())
     {
         $config[$row['k']] = $row['v'];   
     }
 
     $sql = 'select * from verify_refund where refund_flag=0 and del_flag=0 order by id asc limit 100';
-    $result = mysql_query($sql,$conn);
+    $result = $conn->query($sql);
     $stopFlag = true;
-    while($row = mysql_fetch_array($result))
+    while($row = $result->fetch_assoc())
     {
 	$stopFlag = false;
 	if ($row['id'] <= $lastRow){
@@ -33,9 +32,9 @@ while(! $stopFlag){
 	    break;
 	}
         $sql = 'select * from shop_setting where shop_id='.$row['shop_id'];
-        $result2 = mysql_query($sql,$conn);
-        $ss = mysql_fetch_row($result2);
-        $shop_name = $ss[1];
+        $result2 = $conn->query($sql);
+        $ss = $result2->fetch_all(MYSQLI_ASSOC)[0];
+        $shop_name = $ss['name'];
         $order_id = $row['order_id'];
         $open_id = $row['open_id'];
         $money = $row['money'];
@@ -59,7 +58,7 @@ while(! $stopFlag){
 	$res = $wxpay->pay($url, $obj2,$config['pay_key']);
 	if ($res){
 	    $sql = 'update verify_refund set refund_flag=1 where id='.$row['id'] ;
-	    mysql_query($sql);
+	    $conn->query($sql);
 	}
 	$lastRow = $row['id'];
 	
