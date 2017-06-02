@@ -5,7 +5,7 @@ from dao.user_upload import UserUploadDao
 from threading import Timer
 import os
 
-targetDir = r'/home/huson/ProjectWxAdmin/static/wx_temp'
+targetDir = r'/home/huson/admin.51dingxiao.com/static/wx_temp'
 
 def downloadByAccessTokenAndMediaId(accessToken,mediaId):
     url = r'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s' % (accessToken, mediaId)

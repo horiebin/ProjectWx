@@ -26,6 +26,8 @@ urls = (
     '/refund/history', 'RefundHistory',
     '/refund/oauth','RefundOauth',
 )
+app = web.application(urls, globals())
+app = app.wsgifunc(Log)
 
 # def session_hook():
 #     web.ctx.session = session
@@ -33,10 +35,8 @@ urls = (
 
 if __name__ == '__main__':
     cron.flush_token.start_flush_timer()
-    app = web.application(urls, globals())
     # session = web.session.Session(app, web.session.DiskStore('sessions'),
     #                               initializer={})
     # app.add_processor(web.loadhook(session_hook))
-    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
     app.run(Log)
 
