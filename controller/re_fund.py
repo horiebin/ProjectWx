@@ -13,7 +13,12 @@ import json
 
 render = web.template.render('templates/')
 
+
 class Refund:
+    def __init__(self, ):
+        self.logger = web.ctx.environ['wsgilog.logger']
+        self.logger.info("log test")
+
     def GET(self):
         appId = ServerConfigDao().getAppId()
         jsapi_token = ServerConfigDao().get_jsapi_ticket()

@@ -2,6 +2,15 @@ import socket
 from util.class_decorator import singleton
 # from dao.server_config import ServerConfigDao
 
+import logging
+
+file = "logs/webpy.log"
+logformat = "[%(asctime)s] %(filename)s:%(lineno)d(%(funcName)s): [%(levelname)s] %(message)s"
+datefmt = "%Y-%m-%d %H:%M:%S"
+loglevel = logging.INFO
+interval = "d"
+backups = 7
+
 @singleton
 class Config(object):
 

@@ -5,6 +5,7 @@ import socket
 import web
 
 import cron.flush_token
+from util.log import Log
 from controller.handle import Handle
 from controller.re_fund import Refund
 from controller.re_fund import RefundSubmit
@@ -13,6 +14,8 @@ from controller.re_fund import RefundOauth
 from controller.verify import VerifyXwpay
 from controller.verify import VerifyGZChenlan
 
+
+web.config.debug = False
 
 urls = (
     '/wx', 'Handle',
@@ -34,5 +37,6 @@ if __name__ == '__main__':
     # session = web.session.Session(app, web.session.DiskStore('sessions'),
     #                               initializer={})
     # app.add_processor(web.loadhook(session_hook))
-    app.run()
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    app.run(Log)
 
