@@ -18,15 +18,13 @@ class Handle(object):
                 xml = ET.fromstring(data)
                 msgType = xml.find('MsgType').text
                 if msgType == 'event':
+                    toUserName = xml.find('ToUserName').text
+                    fromUserName = xml.find('FromUserName').text
+                    createTime = xml.find('CreateTime').text
                     Event = xml.find('Event').text
                     if Event != 'subscribe' and Event != 'SCAN':
-                        return 'hello wx'
+                        reply = 'hello wx'
                     if Event == 'subscribe':
-                        EventKey = xml.find('EventKey').text.split('|')[0]
-                        shop_id = int(EventKey[8:])
-                        toUserName = xml.find('ToUserName').text
-                        fromUserName = xml.find('FromUserName').text
-                        createTime = xml.find('CreateTime').text
                         rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价之后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
                         reply = '''
                                                 <xml>
@@ -43,7 +41,6 @@ class Handle(object):
                             'text',
                             rlyContent
                         )
-                        return reply
                     if Event == 'SCAN':
                         EventKey = xml.find('EventKey').text
                         shop_id = int(EventKey)
@@ -57,6 +54,8 @@ class Handle(object):
                         deleteUserTag(open_id,tag)
                     # add tag to wx
                     addShopTagToUser(open_id,shopSetting['wx_tag_id'])
+                    return reply
+
                 elif msgType == 'text'or msgType == 'image':
                     toUserName=xml.find('ToUserName').text
                     fromUserName = xml.find('FromUserName').text
