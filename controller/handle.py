@@ -24,6 +24,7 @@ class Handle(object):
                 Event = xml.find('Event').text
                 if Event != 'subscribe' and Event != 'SCAN':
                     reply = 'hello wx'
+                    return reply
                 if Event == 'subscribe':
                     EventKey = xml.find('EventKey').text.split('|')[0]
                     shop_id = int(EventKey[8:])
@@ -43,6 +44,7 @@ class Handle(object):
                         'text',
                         rlyContent
                     )
+                    return reply
                 if Event == 'SCAN':
                     EventKey = xml.find('EventKey').text
                     shop_id = int(EventKey)
@@ -56,7 +58,7 @@ class Handle(object):
                     deleteUserTag(open_id,tag)
                 # add tag to wx
                 addShopTagToUser(open_id,shopSetting['wx_tag_id'])
-                return reply
+
             elif msgType == 'text'or msgType == 'image':
                 toUserName=xml.find('ToUserName').text
                 fromUserName = xml.find('FromUserName').text
