@@ -25,6 +25,8 @@ class Handle(object):
                     if Event != 'subscribe' and Event != 'SCAN':
                         reply = 'hello wx'
                     if Event == 'subscribe':
+                        EventKey = xml.find('EventKey').text.split('|')[0]
+                        shop_id = int(EventKey[8:])
                         rlyContent = '回复0获取贴膜教学\n\n回复1获取产品介绍\n\n领取红包请到淘宝确认收货，进行全五星评价之后点击菜单中的“返现售后”-"五星好评返现"，按照要求提交好评截图跟订单号领取红包\n\n售后问题请联系淘宝客服，本微信只发送红包，不负责任何售后问题。'
                         reply = '''
                                                 <xml>
@@ -55,7 +57,6 @@ class Handle(object):
                     # add tag to wx
                     addShopTagToUser(open_id,shopSetting['wx_tag_id'])
                     return reply
-
                 elif msgType == 'text'or msgType == 'image':
                     toUserName=xml.find('ToUserName').text
                     fromUserName = xml.find('FromUserName').text
