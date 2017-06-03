@@ -2,10 +2,10 @@ from dao.server_config import ServerConfigDao
 from basic import Basic
 import requests
 import json
-from threading import Timer
 
 
 def flush_config_task():
+
     sc = ServerConfigDao()
     print('----start reflesh token----')
     accessToken = Basic().get_access_token()
@@ -20,11 +20,6 @@ def flush_config_task():
     ticket = r['ticket']
     print(ticket)
     sc.set_jsapi_ticket(ticket)
-
-def start_flush_timer():
-    flush_config_task()
-    # rerun next time
-    Timer(30*60,start_flush_timer, ()).start()
 
 if __name__ == "__main__":
     flush_config_task()

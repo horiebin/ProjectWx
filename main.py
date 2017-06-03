@@ -4,7 +4,6 @@ import socket
 
 import web
 
-import cron.flush_token
 from util.log import Log
 from controller.handle import Handle
 from controller.re_fund import Refund
@@ -34,9 +33,5 @@ app = app.wsgifunc(Log)
 
 
 if __name__ == '__main__':
-    cron.flush_token.start_flush_timer()
-    # session = web.session.Session(app, web.session.DiskStore('sessions'),
-    #                               initializer={})
-    # app.add_processor(web.loadhook(session_hook))
     app.run(Log)
 

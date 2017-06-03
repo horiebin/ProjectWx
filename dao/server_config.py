@@ -1,6 +1,7 @@
 from db_helper import DbHelper
 from util.class_decorator import singleton
-from config import Config
+from util.memcache_util import Client
+import config
 
 @singleton
 class ServerConfigDao(object):
@@ -9,35 +10,20 @@ class ServerConfigDao(object):
         self.table = 'server_config'
         self.db = DbHelper()
         self.nameSpace = 'wx'
-        self.config = {}
-        self.loadServerConfig()
+        self.client = Client(config.prefix)
 
-
-    def loadServerConfig(self):
-        # load config into memery
-        val = {'name_space':self.nameSpace}
-        rows = self.db.select(self.table,where='name_space=$name_space',vars=val)
-        for row in rows:
-            self.config[row.k] = row.v
-        print("finished load server configs")
 
     def get_access_token(self):
-        return self.config['access_token']
+        return self.getValue('access_token')
 
     def set_access_token(self,token):
-        self.config['access_token'] = token
-        val = {'name_space': self.nameSpace, 'k': 'access_token'}
-        self.db.update(self.table,where='name_space=$name_space and k=$k',vars=val,
-                       v=token)
+        return self.setValue('access_token',token)
 
     def get_jsapi_ticket(self):
-        return self.config['jsapi_ticket']
+        return self.getValue('jsapi_ticket')
 
     def set_jsapi_ticket(self,jsTicket):
-        self.config['jsapi_ticket'] = jsTicket
-        val = {'name_space': self.nameSpace, 'k': 'jsapi_ticket'}
-        self.db.update(self.table,where='name_space=$name_space and k=$k',vars=val,
-                       v=jsTicket)
+        self.setValue('jsapi_ticket',jsTicket)
 
     def getGlobalByKey(self,k):
         val = {'name_space':self.nameSpace,'k':k}
@@ -45,10 +31,23 @@ class ServerConfigDao(object):
         return row.v
 
     def getAppId(self):
-        return self.config['app_id']
+        return self.getValue['app_id']
 
     def getAppSecret(self):
-        return self.config['app_secret']
+        return self.getValue['app_secret']
 
     def __getitem__(self, key):
-        return self.config[key]
+        return self.getValue(key)
+
+    def setValue(self,key,value):
+        self.client.set(key,value)
+        val = {'name_space': self.nameSpace, 'k': key}
+        self.db.update(self.table, where='name_space=$name_space and k=$k', vars=val,
+                       v=value)
+
+    def getValue(self,key):
+        access_token = self.client.get(key)
+        if not access_token:
+            access_token = self.getGlobalByKey(key)
+            self.client.set(key, access_token)
+        return access_token

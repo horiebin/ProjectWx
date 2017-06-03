@@ -11,6 +11,9 @@ loglevel = logging.INFO
 interval = "d"
 backups = 7
 
+memcached_servers = ['127.0.0.1:11211']
+prefix = 'chenlan_'
+
 @singleton
 class Config(object):
 
