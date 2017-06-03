@@ -31,10 +31,10 @@ class ServerConfigDao(object):
         return row.v
 
     def getAppId(self):
-        return self.getValue['app_id']
+        return self.getValue('app_id')
 
     def getAppSecret(self):
-        return self.getValue['app_secret']
+        return self.getValue('app_secret')
 
     def __getitem__(self, key):
         return self.getValue(key)
@@ -46,8 +46,8 @@ class ServerConfigDao(object):
                        v=value)
 
     def getValue(self,key):
-        access_token = self.client.get(key)
-        if not access_token:
-            access_token = self.getGlobalByKey(key)
-            self.client.set(key, access_token)
-        return access_token
+        value = self.client.get(key)
+        if not value:
+            value = self.getGlobalByKey(key)
+            self.client.set(key, value)
+        return value

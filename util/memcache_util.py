@@ -8,13 +8,13 @@ except ImportError:
 
 class Client():
     def __init__(self, prefix):
-        self.client = mc.Client(config.memcached_servers,debug=0)
+        self.client = mc.Client(config.memcached_servers)
         self.prefix = prefix
 
     def set(self,key,value):
         key = key + self.prefix
         return self.client.set(key,value)
 
-    def get(self,key,value):
+    def get(self,key):
         key = key + self.prefix
         return self.client.get(key)
