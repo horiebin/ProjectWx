@@ -5,6 +5,7 @@ import socket
 import web
 
 from util.log import Log
+import config
 from controller.handle import Handle
 from controller.re_fund import Refund
 from controller.re_fund import RefundSubmit
@@ -14,7 +15,7 @@ from controller.verify import VerifyXwpay
 from controller.verify import VerifyGZChenlan
 
 
-web.config.debug = False
+web.config.debug = config.debug
 
 urls = (
     '/wx', 'Handle',
@@ -26,7 +27,8 @@ urls = (
     '/refund/oauth','RefundOauth',
 )
 app = web.application(urls, globals())
-app = app.wsgifunc(Log)
+if not config.debug :
+    app = app.wsgifunc(Log)
 
 # def session_hook():
 #     web.ctx.session = session
