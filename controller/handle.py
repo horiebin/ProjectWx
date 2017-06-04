@@ -16,10 +16,7 @@ class Handle(object):
         data = web.data()
         if len(data) == 0:
             return 'hello, this is handle view'
-            print "nothing received"
         else:
-            print data
-
             xml = ET.fromstring(data)
             msgType = xml.find('MsgType').text
             autoReply = AutoReplyDao().getAllReplys()

@@ -17,3 +17,7 @@ class AutoReplyDao(object):
             rows = self.db.select(self.table, where='enable_flag=1',order='id asc')
             self.client.set('auto_reply',list(rows))
         return rows
+
+    def saveReplysToMc(self):
+        rows = self.db.select(self.table, where='enable_flag=1', order='id asc')
+        self.client.set('auto_reply', list(rows))
