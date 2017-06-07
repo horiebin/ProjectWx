@@ -34,6 +34,7 @@ class Handle(object):
                 if Event == 'SCAN':
                     EventKey = xml.find('EventKey').text
                     shop_id = int(EventKey)
+                    reply = autoReply[0]
                 shopSetting = ShopSettingDao().getSetting(shop_id)
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
