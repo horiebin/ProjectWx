@@ -3,7 +3,13 @@ from util.class_decorator import singleton
 # from dao.server_config import ServerConfigDao
 
 import logging
-debug = True
+import platform
+plt = platform.architecture()
+syst = plt[1]
+if syst == 'ELF':
+    debug = False
+else :
+    debug = True
 file = "logs/webpy.log"
 logformat = "[%(asctime)s] %(filename)s:%(lineno)d(%(funcName)s): [%(levelname)s] %(message)s"
 datefmt = "%Y-%m-%d %H:%M:%S"
