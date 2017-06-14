@@ -9,6 +9,7 @@ from dao.order_ids import OrderIdsDao
 from dao.shop_setting import ShopSettingDao
 from dao.log_change_money import LogShopMoneyDao
 from dao.shop_account import ShopAccountDao
+from dao.user_belong import UserBelongDao
 import json
 
 render = web.template.render('templates/')
@@ -28,8 +29,11 @@ class Refund:
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
         data = web.input()
         code = data.code
-        shopid = data.state
+        # shopid = data.state
         openid = getOpenIdByCode(code)
+        shopid = UserBelongDao().getShopIdByOpenId(openid)
+        if not shopid:
+            return 'you are not refund user'
         return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
 
 class RefundSubmit:
@@ -96,5 +100,5 @@ class RefundHistory():
 class RefundOauth():
     def GET(self):
         data = web.input()
-        shopid = data.shopid
-        oauth2('/refund','snsapi_base',shopid)
+        # shopid = data.shopid
+        oauth2('/refund','snsapi_base','')
