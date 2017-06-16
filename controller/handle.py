@@ -26,7 +26,6 @@ class Handle(object):
                 Event = xml.find('Event').text
                 if Event != 'subscribe' and Event != 'SCAN':
                     return 'hello wx'
-
                 if Event == 'subscribe':
                     EventKey = xml.find('EventKey').text.split('|')[0]
                     shop_id = int(EventKey[8:])
