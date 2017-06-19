@@ -46,7 +46,7 @@ class Handle(object):
                 addShopTagToUser(open_id, shopSetting['wx_tag_id'])
 
 
-            elif msgType == 'text' or msgType == 'image':
+            elif msgType == 'text':
                 messageContent = xml.find('Content').text
                 for row in autoReply[1:]:
                     if row['match_type'] == 0:
@@ -57,6 +57,11 @@ class Handle(object):
                         if row['match_content'] in messageContent :
                             reply = row
                             break
+            else:
+                for row in autoReply[1:]:
+                    if row['id']==65535:
+                        reply = row
+                        break
 
             if reply is not None :
                 toUserName = xml.find('ToUserName').text
