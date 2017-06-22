@@ -11,7 +11,7 @@ postJson = """
         {
             "name": "好评返现",
             "type": "view",
-            "url": "http://wx.mmd666.cn/refund/oauth?shopid=10002"
+            "url": "http://wx.mmd666.cn/refund/oauth?"
         },
         {
             "name": "产品介绍",
@@ -46,7 +46,7 @@ postJson = """
                 {
                     "type": "view",
                     "name": "贴膜教学",
-                    "url": "http://mp.weixin.qq.com/s?__biz=MzA3ODkxMzQ5Mw==&mid=100000024&idx=1&sn=8272e87c60ca30a94814315cb5bb5bc2&chksm=1fbacba228cd42b40ac37a37cb0ebbdaac9b2ca262d73419990e5172d868ca0d470e98c3e5f9#rd"
+                    "url": "http://mp.weixin.qq.com/s?__biz=MzA3ODkxMzQ5Mw==&mid=100000050&idx=1&sn=c23aa0447bfef3f906f5ffb4dc9aefe0&chksm=1fbacb8828cd429e74af6131427db12e7e2be77144a22f87d8729009e7e9874cd79c6d421cfe#rd"
                 },
                 {
                     "type": "view",
@@ -70,12 +70,9 @@ postJson = """
                 }
             ]
         }
-    ],
-  "matchrule":{
-  "tag_id":"104"
-  }
+    ]
 }"""
 
 accessToken = Basic().get_access_token()
 #myMenu.delete(accessToken)
-myMenu.createCondition(postJson, accessToken)
+myMenu.create(postJson, accessToken)
