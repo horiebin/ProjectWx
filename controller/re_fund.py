@@ -44,7 +44,7 @@ class RefundSubmit:
 
         data = json.loads(data.info);
         serverIds = data['server_ids']
-        orderId = data['order_id']
+        orderId = data['order_id'].replace(' ','')
         shopId = data['shop_id']
         openId = data['open_id']
         userUploadDao = UserUploadDao()
