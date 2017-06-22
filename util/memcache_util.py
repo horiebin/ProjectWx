@@ -12,9 +12,9 @@ class Client():
         self.prefix = prefix
 
     def set(self,key,value):
-        key = key + self.prefix
+        key =  self.prefix + key
         return self.client.set(key,value)
 
     def get(self,key):
-        key = key + self.prefix
+        key = self.prefix + key
         return self.client.get(key)
