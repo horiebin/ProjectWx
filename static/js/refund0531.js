@@ -120,7 +120,7 @@ function postRequest(serverIdList) {
         data: {info:JSON.stringify({shop_id:shopId, open_id:openId,order_id: orderId, server_ids: serverIdList})},
         success: function (data) {
             if(data == 'true'){
-                alert('上传成功!');
+                alert('上传成功,等待审核，24小时内出结果');
                 $('.close').trigger("click");
                 $('#orderInput').val('') ;
             }else if(data == 'wrong'){
