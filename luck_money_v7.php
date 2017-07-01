@@ -56,8 +56,11 @@ while(! $stopFlag){
 	$url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 	$wxpay = new wxPay();
 	$res = $wxpay->pay($url, $obj2,$config['pay_key']);
-	if ($res){
+	if ($res == 'SUCCESS'){
 	    $sql = 'update verify_refund set refund_flag=1 where id='.$row['id'] ;
+	    $conn->query($sql);
+	}else if ($res == 'USER_ERROR'){
+	    $sql = 'update verify_refund set del_flag=1 where id='.$row['id'] ;
 	    $conn->query($sql);
 	}
 	$lastRow = $row['id'];

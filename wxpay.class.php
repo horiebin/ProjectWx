@@ -14,9 +14,11 @@ class wxPay {
         $xml = simplexml_load_string($xmldata);
 	$result = (string) $xml->result_code;
 	if ($result == 'SUCCESS')
-	    return true;
-	echo $xmldata;
-        return false;
+	    return 'SUCCESS';
+	else if($result ==''){
+        return 'USER_ERROR';
+    }else{
+        return 'NOT_OK';
     }
     
     //生成签名,参数：生成签名的参数和是否编码
