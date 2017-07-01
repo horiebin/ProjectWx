@@ -62,18 +62,21 @@ while (!$stopFlag) {
             $conn->query($sql);
             $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_fail';
             $data = json_encode(array('open_id' => $open_id));
-
-            // use key 'http' even if you send the request to https://...
-            $options = array(
-                'http' => array(
-                    'method' => 'POST',
-                    'content' => http_build_query($data)
-                )
-            );
-            $context = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);
+            httpPost($url,$data);
         }
         $lastRow = $row['id'];
 
     }
 }
+
+function httpPost($url, $data)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
+
