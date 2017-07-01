@@ -2,25 +2,27 @@
 class wxPay {
     //配置参数信息
     //核心支付函数,参数：请求地址和参数
-    function pay($url,$obj,$key) {
+    function pay($url,$obj,$key)
+    {
         $obj['nonce_str'] = $this->create_noncestr();    //创建随机字符串
-        $stringA = $this->create_qianming($obj,false);    //创建签名
-        $stringSignTemp = $stringA."&key=".$key;    //签名后加api
+        $stringA = $this->create_qianming($obj, false);    //创建签名
+        $stringSignTemp = $stringA . "&key=" . $key;    //签名后加api
         $sign = strtoupper(md5($stringSignTemp));    //签名加密并大写
         $obj['sign'] = $sign;    //将签名传入数组
         $postXml = $this->arrayToXml($obj);    //将参数转为xml格式
         #var_dump($postXml);    
-        $xmldata = $this->curl_post_ssl($url,$postXml);    //提交请求
+        $xmldata = $this->curl_post_ssl($url, $postXml);    //提交请求
         $xml = simplexml_load_string($xmldata);
-	$result = (string) $xml->result_code;
-	if ($result == 'SUCCESS')
-	    return 'SUCCESS';
-	else if($result ==''){
-        return 'USER_ERROR';
-    }else{
-        return 'NOT_OK';
+        $result = (string)$xml->result_code;
+        if ($result == 'SUCCESS')
+            return 'SUCCESS';
+        else if ((string)$xml->err_code == 'NO_AUTH') {
+            return 'USER_ERROR';
+        } else {
+            echo $xmldata;
+            return 'NOT_OK';
+        }
     }
-    
     //生成签名,参数：生成签名的参数和是否编码
     function create_qianming($arr,$urlencode) {
         $buff = "";
@@ -33,12 +35,12 @@ class wxPay {
                 $buff.=$k."=".$v."&";
             }
         }
-        if (strlen($buff)>0) {    
+        if (strlen($buff)>0) {
             $reqPar = substr($buff,0,strlen($buff)-1); //去掉末尾符号“&”
         }
         return $reqPar;
     }
-    
+
     //生成随机字符串，默认32位
     function create_noncestr($length=32) {
         //创建随机字符
@@ -47,7 +49,7 @@ class wxPay {
         for($i=0;$i<$length;$i++) {
             $str.=substr($chars, mt_rand(0,strlen($chars)-1),1);
         }
-        return $str;    
+        return $str;
     }
     //数组转xml
     function arrayToXml($arr) {
@@ -62,7 +64,7 @@ class wxPay {
         $xml.="</xml>";
         return $xml;
     }
-    
+
     //post请求网站，需要证书
     function curl_post_ssl($url, $vars, $second=30,$aHeader=array())
     {
@@ -97,5 +99,5 @@ class wxPay {
             return false;
         }
     }
-    
+
 }
