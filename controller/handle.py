@@ -59,7 +59,7 @@ class Handle(object):
                             break
             else:
                 for row in autoReply[1:]:
-                    if row['id']==65535:
+                    if row['match_content'] == 'image':
                         reply = row
                         break
 
