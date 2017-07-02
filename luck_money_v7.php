@@ -61,7 +61,7 @@ while (!$stopFlag) {
             $sql = 'update verify_refund set del_flag=1 where id=' . $row['id'];
             $conn->query($sql);
             $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_fail';
-            $data = json_encode(array('open_id' => $open_id));
+            $data = array('open_id' => $open_id);
             httpPost($url,$data);
         }
         $lastRow = $row['id'];
