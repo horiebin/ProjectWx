@@ -29,7 +29,7 @@ class Config(object):
         'username': 'xiaob',
         'password': 'skdfjkasdf',
         'dbname': 'xiaob',
-        'host': 'localhost',
+        'host': '127.0.0.1',
         'port': 3306,
     }
 
@@ -38,7 +38,7 @@ class Config(object):
         'username': 'xiaob',
         'password': 'skdfjkasdf',
         'dbname': 'xiaob',
-        'host': 'localhost',
+        'host': '127.0.0.1',
         'port': 3306,
     }
 
