@@ -83,6 +83,8 @@ class Handle(object):
                         reply['message_type'],
                         reply['reply_content']
                         )
+                replyWx = replyWx.encode('utf-8')
+                print replyWx
                 return replyWx
             else :
                 return ''

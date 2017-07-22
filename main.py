@@ -13,8 +13,10 @@ from controller.re_fund import RefundHistory
 from controller.re_fund import RefundOauth
 from controller.verify import VerifyXwpay
 from controller.verify import VerifyGZChenlan
+import sys 
 
-
+reload(sys)
+sys.setdefaultencoding('utf8')
 web.config.debug = config.debug
 
 urls = (
