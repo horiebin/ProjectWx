@@ -33,7 +33,10 @@ def getOpenIdByCode(code):
     url = r'https://api.weixin.qq.com/sns/oauth2/access_token?' \
           r'appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appId,secret,code)
     urlResp = urllib.urlopen(url)
-    urlResp = json.loads(urlResp.read())
+    t = urlResp.read()
+    urlResp = json.loads(t)
+    if 'openid' not in urlResp:
+        print t
     return urlResp['openid']
 
 def addShopTagToUser(open_id,shop_tag_id):

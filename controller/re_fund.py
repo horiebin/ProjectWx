@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import web
 from dao.server_config import ServerConfigDao
 from util.wx_algorithms import *
@@ -33,7 +35,7 @@ class Refund:
         openid = getOpenIdByCode(code)
         shopid = UserBelongDao().getShopIdByOpenId(openid)
         if not shopid:
-            return 'you are not refund user'
+            return u'请重新扫描二维码'
         return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
 
 class RefundSubmit:
