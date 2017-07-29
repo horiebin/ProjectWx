@@ -103,4 +103,4 @@ class RefundOauth():
     def GET(self):
         data = web.input()
         # shopid = data.shopid
-        oauth2('/refund','snsapi_base','')
+        oauth2('/refund','snsapi_base','state')

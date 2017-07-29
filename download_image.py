@@ -5,7 +5,9 @@ from dao.user_upload import UserUploadDao
 from threading import Timer
 import os
 import traceback
-
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+print currentdir
 targetDir = r'/home/huson/admin.51dingxiao.com/static/wx_temp'
 
 def downloadByAccessTokenAndMediaId(accessToken,mediaId):
@@ -15,7 +17,7 @@ def downloadByAccessTokenAndMediaId(accessToken,mediaId):
 def start_download():
     try:
         access_token = ServerConfigDao().get_access_token()
-        file = open('current.id','r+')
+        file = open(currentdir+'/current.id','r+')
         # once 100 images
         line = file.readline()
         if line != '':

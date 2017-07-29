@@ -56,6 +56,8 @@ def getUserTags(open_id):
     payload = json.dumps(data)
     s = requests.post(target,data=payload)
     res = json.loads(s.text)
+    if 'tagid_list' not in res:
+	print s.text
     tags = res['tagid_list']
     return tags
 

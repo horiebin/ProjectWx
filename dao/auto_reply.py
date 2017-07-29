@@ -14,8 +14,8 @@ class AutoReplyDao(object):
     def getAllReplys(self):
         rows = self.client.get('auto_reply')
         if not rows:
-            rows = self.db.select(self.table, where='enable_flag=1',order='id asc')
-            self.client.set('auto_reply',list(rows))
+            rows = list(self.db.select(self.table, where='enable_flag=1',order='id asc'))
+            self.client.set('auto_reply',rows)
         return rows
 
     def saveReplysToMc(self):
