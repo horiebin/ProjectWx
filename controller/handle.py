@@ -6,6 +6,7 @@ from dao.user_belong import UserBelongDao
 from dao.shop_setting import ShopSettingDao
 from util.wx_algorithms import *
 from dao.auto_reply import AutoReplyDao
+from dao.server_config import ServerConfigDao
 
 class Handle(object):
     def __init__(self, ):
@@ -18,6 +19,7 @@ class Handle(object):
             return 'hello, this is handle view'
         else:
             xml = ET.fromstring(data)
+            namespace = ServerConfigDao().getNameSpaceByOriginalId(xml.find('ToUserName').text)
             msgType = xml.find('MsgType').text
             autoReply = AutoReplyDao().getAllReplys()
             reply = None
@@ -38,12 +40,12 @@ class Handle(object):
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
                 # add user to db
-                UserBelongDao().insertOnUpdate(open_id, shop_id)
-                tags = getUserTags(open_id)
+                UserBelongDao().insertOnUpdate(open_id, shop_id,namespace)
+                tags = getUserTags(open_id,namespace)
                 for tag in tags:
-                    deleteUserTag(open_id, tag)
+                    deleteUserTag(open_id, tag,namespace)
                 # add tag to wx
-                addShopTagToUser(open_id, shopSetting['wx_tag_id'])
+                addShopTagToUser(open_id, shopSetting['wx_tag_id'],namespace)
 
 
             elif msgType == 'text':

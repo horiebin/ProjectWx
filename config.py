@@ -20,6 +20,7 @@ backups = 7
 memcached_servers = ['127.0.0.1:11211']
 prefix = 'chenlan_'
 nsqd = '127.0.0.1:4151'
+pay_namespace = 'chenlan'
 
 @singleton
 class Config(object):
