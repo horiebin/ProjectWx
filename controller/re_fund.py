@@ -4,7 +4,7 @@ import web
 from dao.server_config import ServerConfigDao
 from util.wx_algorithms import *
 import time
-from config import Config
+import config
 from dao.user_upload import UserUploadDao
 from dao.verify_refund import VerifyRefundDao
 from dao.order_ids import OrderIdsDao
@@ -12,6 +12,7 @@ from dao.shop_setting import ShopSettingDao
 from dao.log_change_money import LogShopMoneyDao
 from dao.shop_account import ShopAccountDao
 from dao.user_belong import UserBelongDao
+from dao.openid_match import OpenidMatch
 import json
 
 render = web.template.render('templates/')
@@ -23,20 +24,39 @@ class Refund:
         self.logger.info("log test")
 
     def GET(self):
-        appId = ServerConfigDao().getAppId()
-        jsapi_token = ServerConfigDao().get_jsapi_ticket()
+        data = web.input()
+        code = data.code
+        namespace = data.state
+
+        openid = getOpenIdByCode(code)
+        if not namespace:
+            return u'请重新点击链接'
+        OpenidMatch().insertSourceUser(openid,namespace) #finish first redirect
+
+        target = r'/pay_refund_oauth?openid=%s'%openid
+        raise web.seeother(target)
+
+        return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
+
+class RefundPay:
+    def GET(self):
+        data = web.input()
+        code = data.code
+        source_openid = data.state
+        openid = getOpenIdByCode(code)
+        if not source_openid:
+            return u'请重新点击链接'
+
+        OpenidMatch().insertPayUser(openid,source_openid)
+        namespace = config.pay_namespace
+        appId = ServerConfigDao().getValue(namespace,'app_id')
+        jsapi_token = ServerConfigDao().getValue(namespace,'jsapi_token')
         noncestr = id_generator()
         timestamp = int(time.time())
         url = r'http://'+ServerConfigDao()['domin_name'] + web.ctx.fullpath
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
-        data = web.input()
-        code = data.code
-        # shopid = data.state
-        openid = getOpenIdByCode(code)
-        shopid = UserBelongDao().getShopIdByOpenId(openid)
-        if not shopid:
-            return u'请重新扫描二维码'
-        return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
+
+        return render.refund(appId,sign,noncestr,timestamp,namespace,openid)
 
 class RefundSubmit:
     def POST(self):
@@ -102,5 +122,13 @@ class RefundHistory():
 class RefundOauth():
     def GET(self):
         data = web.input()
-        # shopid = data.shopid
-        oauth2('/refund','snsapi_base','state')
+        shopid = data.shopid
+        namespace = ShopSettingDao().getSetting(shopid)['namespace']
+        oauth2('/refund','snsapi_base',namespace,namespace)
+
+class PayRefundOauth():
+    def GET(self):
+        data = web.input()
+        source_openid = data.openid
+        namespace = config.pay_namespace
+        oauth2('/refund/pay', 'snsapi_base', source_openid, namespace)

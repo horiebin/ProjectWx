@@ -18,7 +18,7 @@ def js_signature(noncestr,jsapi_ticket,timestamp,url):
     return h.hexdigest()
 
 def oauth2(redictUrl,scope,state,namespace):
-    appId = ServerConfigDao().getAppId()
+    appId = ServerConfigDao().getValue(namespace,'app_id')
     redictUrl = r'http://' + ServerConfigDao()['domin_name'] + redictUrl
     scope = scope
     state = state
