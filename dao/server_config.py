@@ -40,3 +40,6 @@ class ServerConfigDao(object):
             value = row.name_space
             self.client.set(newKey, value)
         return value
+
+    def getAllNamespace(self):
+        return [record['namespace'] for record in self.db.query('Select unique(namespace) from %s' % self.table)]

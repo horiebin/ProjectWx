@@ -18,7 +18,7 @@ import json
 render = web.template.render('templates/')
 
 
-class Refund:
+class Cross:
     def __init__(self, ):
         self.logger = web.ctx.env.get('wsgilog.logger')
         self.logger.info("log test")
@@ -33,12 +33,12 @@ class Refund:
 
         OpenidMatch().insertSourceUser(openid,namespace) #finish first redirect
 
-        target = r'/refund/payoauth?openid=%s'%openid
+        target = r'/cross_refund/oauth2?openid=%s'%openid
         raise web.seeother(target)
 
         return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
 
-class RefundPay:
+class CrossRefundPage:
     def GET(self):
         data = web.input()
         code = data.code
@@ -52,7 +52,7 @@ class RefundPay:
         OpenidMatch().insertPayUser(openid,source_openid)
 
         appId = ServerConfigDao().getValue(namespace,'app_id')
-        jsapi_token = ServerConfigDao().getValue(namespace,'jsapi_token')
+        jsapi_token = ServerConfigDao().getValue(namespace,'jsapi_ticket')
         noncestr = id_generator()
         timestamp = int(time.time())
         url = r'http://'+ServerConfigDao()['domin_name'] + web.ctx.fullpath
@@ -60,7 +60,7 @@ class RefundPay:
 
         return render.refund(appId,sign,noncestr,timestamp,namespace,openid)
 
-class RefundSubmit:
+class CrossRefundSubmit:
     def POST(self):
         data = web.input()
         if len(data) == 0:
@@ -112,7 +112,7 @@ class RefundSubmit:
         else:
             return 'false'
 
-class RefundHistory():
+class CrossRefundHistory():
     def GET(self):
         data = web.input()
         openId = data.openId
@@ -121,16 +121,16 @@ class RefundHistory():
         uploads = userUploadDao.selectByOpenId(shopId,openId)
         return render.history(uploads)
 
-class RefundOauth():
+class Oauth1():
     def GET(self):
         data = web.input()
         shopid = data.shopid
         namespace = ShopSettingDao().getSetting(shopid)['namespace']
-        oauth2('/refund','snsapi_base',namespace,namespace)
+        oauth2('/cross_refund/cross','snsapi_base',namespace,namespace)
 
-class PayOauth():
+class Oauth2():
     def GET(self):
         data = web.input()
         source_openid = data.openid
         namespace = config.pay_namespace
-        oauth2('/refund/pay', 'snsapi_base', source_openid, namespace)
+        oauth2('/cross_refund/page', 'snsapi_base', source_openid, namespace)

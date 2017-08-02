@@ -29,7 +29,7 @@ class Config(object):
         'dbn': 'mysql',
         'username': 'xiaob',
         'password': 'skdfjkasdf',
-        'dbname': 'xiaob',
+        'dbname': 'xunhui',
         'host': '127.0.0.1',
         'port': 3306,
     }
