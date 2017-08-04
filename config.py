@@ -18,7 +18,7 @@ interval = "d"
 backups = 7
 
 memcached_servers = ['127.0.0.1:11211']
-prefix = 'chenlan_'
+prefix = 'xunhui_'
 nsqd = '127.0.0.1:4151'
 pay_namespace = 'chenlan'
 

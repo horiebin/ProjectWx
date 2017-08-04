@@ -39,29 +39,30 @@ while (!$stopFlag) {
         $sender = $shop_name;
 
         $obj2 = array();
-        $obj2['wxappid'] = $config['app_id']; //appid
-        $obj2['mch_id'] = $config['pay_id'];//商户id
-        $obj2['mch_billno'] = $order_id;
-        $obj2['client_ip'] = '120.25.195.197';
-        $obj2['re_openid'] = $open_id;//接收红包openid
-        $obj2['total_amount'] = $money;
-        $obj2['total_num'] = 1;
-        $obj2['send_name'] = $shop_name;
-        $obj2['wishing'] = "感谢您的好评";
-        $obj2['act_name'] = $shop_name . "";
-        $obj2['remark'] = $shop_name . "红包";
+        $obj2['mch_appid'] = $config['app_id']; //appid
+        $obj2['mchid'] = $config['pay_id'];//商户id
+        $obj2['partner_trade_no'] = $order_id;
+        $obj2['spbill_create_ip'] = '120.25.195.197';
+        $obj2['openid'] = $open_id;//接收红包openid
+        $obj2['amount'] = $money;
+        $obj2['desc'] = $shop_name."送给您的好评红包";
+        $obj2['check_name'] = "NO_CHECK";
 
-        $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+        //$url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+        $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
         $wxpay = new wxPay();
         $res = $wxpay->pay($url, $obj2, $config['pay_key']);
         if ($res == 'SUCCESS') {
             $sql = 'update verify_refund set refund_flag=1 where id=' . $row['id'];
             $conn->query($sql);
+            $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_success';
+            $data = array('open_id' => $open_id,'shop_id'=>$row['shop_id']);
+            httpPost($url,$data);
         } else if ($res == 'USER_ERROR') {
             $sql = 'update verify_refund set del_flag=1 where id=' . $row['id'];
             $conn->query($sql);
             $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_fail';
-            $data = array('open_id' => $open_id);
+            $data = array('open_id' => $open_id,'shop_id'=>$row['shop_id']);
             httpPost($url,$data);
         }
         $lastRow = $row['id'];

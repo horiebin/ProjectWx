@@ -2,10 +2,12 @@
 import urllib
 from dao.server_config import ServerConfigDao
 from dao.user_upload import UserUploadDao
+from dao.openid_match import OpenidMatch
 from threading import Timer
 import os
 import traceback
 import os,sys,inspect
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 print currentdir
 targetDir = r'/home/huson/admin.51dingxiao.com/static/wx_temp'

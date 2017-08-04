@@ -55,14 +55,14 @@ cur.execute('Insert into log_change_money(shop_id,money ) VALUES (%s,%s)',(shop_
 con.commit()
 print 'finished!'
 
-# print 'start create tag...'
-# tagid = createTag('shop_%d'%shop_id)
-# print 'finished! tag id : %d'%tagid
-#
-# print 'save tag id'
-# cur.execute('Update shop_setting set wx_tag_id=%s where shop_id=%s',(tagid,shop_id))
-# con.commit()
-# con.close()
-#
-# access_token = ServerConfigDao()['access_token']
+print 'start create tag...'
+tagid = createTag('shop_%d'%shop_id)
+print 'finished! tag id : %d'%tagid
+
+print 'save tag id'
+cur.execute('Update shop_setting set wx_tag_id=%s where shop_id=%s',(tagid,shop_id))
+con.commit()
+con.close()
+
+# access_token = ServerConfigDao().getValue('access_token')
 # print access_token

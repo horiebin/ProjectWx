@@ -24,16 +24,9 @@ class Cross:
         self.logger.info("log test")
 
     def GET(self):
-        data = web.input()
-        code = data.code
-        namespace = data.state
-        if not namespace:
-            return u'请重新点击链接'
-        openid = getOpenIdByCode(code,namespace)
+         #finish first redirect
 
-        OpenidMatch().insertSourceUser(openid,namespace) #finish first redirect
-
-        target = r'/cross_refund/oauth2?openid=%s'%openid
+        target = r'/cross_refund/oauth2?openid=%s'%'openid'
         raise web.seeother(target)
 
         return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
@@ -42,8 +35,8 @@ class CrossRefundPage:
     def GET(self):
         data = web.input()
         code = data.code
-        source_openid = data.state
-
+        source_openid = data.state[0:28]
+        shopid = data.state[28:]
         if not source_openid:
             return u'请重新点击链接'
 
@@ -58,7 +51,7 @@ class CrossRefundPage:
         url = r'http://'+ServerConfigDao()['domin_name'] + web.ctx.fullpath
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
 
-        return render.refund(appId,sign,noncestr,timestamp,namespace,openid)
+        return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
 
 class CrossRefundSubmit:
     def POST(self):
@@ -124,13 +117,20 @@ class CrossRefundHistory():
 class Oauth1():
     def GET(self):
         data = web.input()
-        shopid = data.shopid
+        shopid = data.shop_id
         namespace = ShopSettingDao().getSetting(shopid)['namespace']
-        oauth2('/cross_refund/cross','snsapi_base',namespace,namespace)
+        oauth2('/cross_refund/oauth2','snsapi_base',shopid,namespace)
 
 class Oauth2():
     def GET(self):
         data = web.input()
-        source_openid = data.openid
+        code = data.code
+        shopid = data.state
+        if not shopid:
+            return u'请重新点击链接'
+        source_namespace = ShopSettingDao().getSetting(shopid)['namespace']
+        source_openid = getOpenIdByCode(code, source_namespace)
+        OpenidMatch().insertSourceUser(source_openid, source_namespace)
+
         namespace = config.pay_namespace
-        oauth2('/cross_refund/page', 'snsapi_base', source_openid, namespace)
+        oauth2('/cross_refund/page', 'snsapi_base', source_openid+shopid, namespace)
