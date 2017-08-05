@@ -23,14 +23,14 @@ def flush_config_task():
         urlResp = json.loads(urlResp.read())
 
         accessToken = urlResp['access_token']
-        sc.set_access_token(name,accessToken)
+        sc.setValue(name,'access_token',accessToken)
 
         url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
         payload = {'access_token': accessToken, 'type': 'jsapi'}
         resp = requests.get(url, params=payload)
         r = json.loads(resp.content)
         ticket = r['ticket']
-        sc.set_jsapi_ticket(name,ticket)
+        sc.setValue(name,'jsapi_ticket',ticket)
 
 if __name__ == "__main__":
     flush_config_task()

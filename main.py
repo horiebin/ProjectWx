@@ -25,10 +25,6 @@ urls = (
     '/wx', 'Handle',
     '/MP_verify_xHfVRSc4XZjB8oTQ.txt', 'VerifyXwpay',
     '/MP_verify_7DY5qAd936DYwWrL.txt', 'VerifyGZChenlan',
-    '/refund', 'Refund',
-    '/refund/submit', 'RefundSubmit',
-    '/refund/history', 'RefundHistory',
-    '/refund/oauth','RefundOauth',
 
     '/cross_refund/oauth1', 'Oauth1',
     '/cross_refund/cross', 'Cross',

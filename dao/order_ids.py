@@ -8,9 +8,9 @@ class OrderIdsDao(object):
         self.table = 'order_ids'
         self.db = DbHelper()
 
-    def verifyByOrderID(self, orderid):
-        val = {'orderId': orderid}
-        rows = self.db.select(self.table, where='order_id=$orderId', vars=val)
+    def verifyByOrderID(self, orderid,shopid):
+        val = {'orderId': orderid,'shopId':shopid}
+        rows = self.db.select(self.table, where='order_id=$orderId and shop_id=$shopId', vars=val)
         if rows:
             return True
         else:

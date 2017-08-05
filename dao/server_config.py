@@ -17,13 +17,13 @@ class ServerConfigDao(object):
         return self.getValue(self.pay_nameSpace,key)
 
     def setValue(self,namespace,key,value):
-        self.client.set(key,value)
+        self.client.set(namespace+'_'+key,value)
         val = {'name_space': namespace, 'k': key}
         self.db.update(self.table, where='name_space=$name_space and k=$k', vars=val,
                        v=value)
 
     def getValue(self,namespace,key):
-        value = self.client.get(key)
+        value = self.client.get(namespace+'_'+key)
         if not value:
             val = {'name_space': namespace, 'k': key}
             row = self.db.select(self.table, where='name_space=$name_space and k=$k', vars=val)[0]
@@ -42,4 +42,5 @@ class ServerConfigDao(object):
         return value
 
     def getAllNamespace(self):
-        return [record['namespace'] for record in self.db.query('Select unique(namespace) from %s' % self.table)]
+        all = self.db.query('Select DISTINCT (name_space) from %s' % self.table)
+        return [record['name_space'] for record in all]
