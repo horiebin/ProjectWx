@@ -116,7 +116,7 @@ function postRequest(serverIdList) {
     console.log('orderId: ' + orderId);
     $.ajax({
         type: "POST",
-        url: "/refund/submit",
+        url: "/cross_refund/submit",
         data: {info:JSON.stringify({shop_id:shopId, open_id:openId,order_id: orderId, server_ids: serverIdList})},
         success: function (data) {
             if(data == 'true'){
