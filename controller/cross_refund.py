@@ -38,6 +38,8 @@ class CrossRefundPage:
         code = data.code
         source_openid = data.state[0:28]
         shopid = data.state[28:]
+	if shopid == 'False':
+	    return u'请重新扫描二维码'
         if not source_openid:
             return u'请重新点击链接'
 
@@ -66,7 +68,8 @@ class CrossRefundSubmit:
         shopId = data['shop_id']
         openId = data['open_id']
         userUploadDao = UserUploadDao()
-
+	if shopId == 'False':
+	    return u'请重新扫描二维码'
         shopSetting = ShopSettingDao().getSetting(shopid=shopId)
         if shopSetting['filter_orderid_flag'] == 1:
             # open filter function
