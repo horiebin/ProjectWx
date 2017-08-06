@@ -15,19 +15,11 @@ class Client():
 
     def set(self,key,value):
         key =  self.prefix + key
-	try:
-	    print 'memcache set:'+key+':'+value
-	except:
-	    print 'memcache set:'+key
         return self.d.client.set(key,value)
 
     def get(self,key):
         key = self.prefix + key
-        value = self.d.client.get(key)
-	try:
-	    print 'memcache get:'+key+':'+value
-	except:
-	    print 'memcache get:'+key
-	    import traceback
- 	    print traceback.format_exc()
+	if not hasattr(self.d, 'client'):
+	    self.d.client = mc.Client(config.memcached_servers)
+	value = self.d.client.get(key)
 	return value

@@ -26,7 +26,7 @@ def oauth2(redictUrl,scope,state,namespace):
     target = r'https://open.weixin.qq.com/connect/oauth2/authorize?' \
              r'appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#' \
              r'wechat_redirect' % (appId, redictUrl, scope, state)
-    print target
+    #print target
     raise web.seeother(target)
 
 def getOpenIdByCode(code,namespace):
@@ -45,7 +45,7 @@ def addShopTagToUser(open_id,shop_tag_id,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=%s' % accessToken
     data = {'openid_list':[open_id],'tagid':shop_tag_id}
     payload = json.dumps(data)
-    s = http.request('POST',target,payload)
+    s = http.request('POST',target,body=payload)
     res = json.loads(s.data)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
@@ -55,7 +55,7 @@ def getUserTags(open_id,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s' %accessToken
     data = {'openid':open_id}
     payload = json.dumps(data)
-    s = http.request('POST',target,payload)
+    s = http.request('POST',target,body=payload)
     res = json.loads(s.data)
     if 'tagid_list' not in res:
         print s.data
@@ -68,7 +68,7 @@ def deleteUserTag(open_id,tag,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=%s' %accessToken
     data = {'openid_list':[open_id],'tagid':tag}
     payload = json.dumps(data)
-    s = http.request('POST',target,payload)
+    s = http.request('POST',target,body=payload)
     res = json.loads(s.data)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
@@ -78,6 +78,6 @@ def createTag(name,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/create?access_token=%s' %accessToken
     data = {'tag':{'name':name}}
     payload = json.dumps(data)
-    s = http.request('POST',target,payload)
+    s = http.request('POST',target,body=payload)
     res = json.loads(s.data)
     return res['tag']['id']

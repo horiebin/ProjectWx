@@ -20,7 +20,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 web.config.debug = True#config.debug
-#web.config.debug = config.debug
+web.config.debug = config.debug
 urls = (
     '/wx', 'Handle',
     '/MP_verify_xHfVRSc4XZjB8oTQ.txt', 'VerifyXwpay',
