@@ -16,7 +16,8 @@ from dao.openid_match import OpenidMatch
 import json
 
 render = web.template.render('templates/')
-
+shop_tag={"105":"10001","104":"10002","106":"10003","110":"10004","111":"10005","112":"10006",
+          "113":"10007","114":"10008","115":"10009","116":"10011"}
 
 class Cross:
     def __init__(self, ):
@@ -138,6 +139,10 @@ class Oauth2():
             source_namespace = config.pay_namespace
             source_openid = getOpenIdByCode(code, source_namespace)
             shopid = UserBelongDao().getShopIdByOpenId(source_openid)
+            if shopid == False:
+                tag = getUserTags(source_openid,source_namespace)[0]
+                shopid = int(shop_tag[str(tag)])
+                print shopid
         else:
             source_namespace = ShopSettingDao().getSetting(shopid)['namespace']
             source_openid = getOpenIdByCode(code, source_namespace)
