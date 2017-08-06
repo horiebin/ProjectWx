@@ -8,9 +8,9 @@ class UserBelongDao(object):
         self.table = 'user_belong'
         self.db = DbHelper()
 
-    def insertOnUpdate(self,open_id,shop_id,namespace):
+    def insertOnUpdate(self,open_id,shop_id):
         try:
-            self.db.insert(self.table,open_id=open_id,namespace=namespace,shop_id=shop_id,create_time=None, update_time=None)
+            self.db.insert(self.table,open_id=open_id,shop_id=shop_id,create_time=None, update_time=None)
         except :
             vals = {'openId':open_id,'shopId':shop_id}
             self.db.update(self.table,where="open_id=$openId and shop_id!=$shopId",vars=vals,shop_id=shop_id)

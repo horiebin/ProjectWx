@@ -40,7 +40,7 @@ class Handle(object):
                 FromUserName = xml.find('FromUserName').text
                 open_id = FromUserName
                 # add user to db
-                UserBelongDao().insertOnUpdate(open_id, shop_id,namespace)
+                UserBelongDao().insertOnUpdate(open_id, shop_id)
                 tags = getUserTags(open_id,namespace)
                 for tag in tags:
                     deleteUserTag(open_id, tag,namespace)

@@ -121,10 +121,10 @@ class CrossRefundHistory():
 class Oauth1():
     def GET(self):
         data = web.input()
-	shopid = int(data.shop_id)
+        shopid = int(data.shop_id)
         if shopid == 0 :
-	    namespace = config.pay_namespace
-	else:
+            namespace = config.pay_namespace
+        else:
             namespace = ShopSettingDao().getSetting(shopid)['namespace']
         oauth2('/cross_refund/oauth2','snsapi_base',shopid,namespace)
 
