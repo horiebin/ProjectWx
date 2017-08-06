@@ -4,14 +4,14 @@ import urllib
 import time
 import json
 from dao.server_config import ServerConfigDao
-
+import config
 class Basic:
     def __init__(self):
         self.__accessToken = ''
         self.__leftTime = 0
     def __real_get_access_token(self):
-        appId = ServerConfigDao().getValue('app_id')
-        appSecret = ServerConfigDao().getValue('app_secret')
+        appId = ServerConfigDao().getValue(config.pay_namespace,'app_id')
+        appSecret = ServerConfigDao().getValue(config.pay_namespace,'app_secret')
 
         postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type="
                "client_credential&appid=%s&secret=%s" % (appId, appSecret))

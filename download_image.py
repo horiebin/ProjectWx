@@ -14,11 +14,12 @@ targetDir = r'/home/huson/admin.51dingxiao.com/static/wx_temp'
 
 def downloadByAccessTokenAndMediaId(accessToken,mediaId):
     url = r'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s' % (accessToken, mediaId)
+    print url
     urllib.urlretrieve(url, "%s/%s.jpg" % (targetDir,mediaId))
 
 def start_download():
     try:
-        access_token = ServerConfigDao().get_access_token()
+        access_token = ServerConfigDao()['access_token']
         file = open(currentdir+'/current.id','r+')
         # once 100 images
         line = file.readline()

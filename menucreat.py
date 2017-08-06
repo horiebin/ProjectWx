@@ -11,7 +11,7 @@ postJson = """
         {
             "name": "好评返现",
             "type": "view",
-            "url": "http://wx.mmd666.cn/refund/oauth?"
+            "url": "http://wx.51dingxiao.com/cross_refund/oauth1?shop_id=0"
         },
         {
             "name": "产品介绍",

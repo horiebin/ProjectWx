@@ -6,7 +6,8 @@ $mysql_username = 'xiaob'; //
 
 $mysql_password = 'skdfjkasdf'; //
 
-$mysql_database = 'xiaob'; //
+$mysql_database = 'xunhui'; //
+$pay_namespace = 'chenlan';
 
 $conn = mysqli_connect($mysql_server_name, $mysql_username, $mysql_password, $mysql_database) or die("error connecting"); //连接数据库
 $conn->query("set names 'utf8'"); //UTF-8 国际标准编码.
@@ -14,7 +15,7 @@ $stopFlag = false;
 $lastRow = 0;
 while (!$stopFlag) {
     $config = array();
-    $sql = "select * from server_config where name_space='wx'";
+    $sql = "select * from server_config where name_space='{$pay_namespace}'";
     $result2 = $conn->query($sql);
     while ($row = $result2->fetch_assoc()) {
         $config[$row['k']] = $row['v'];
@@ -41,7 +42,7 @@ while (!$stopFlag) {
         $obj2 = array();
         $obj2['mch_appid'] = $config['app_id']; //appid
         $obj2['mchid'] = $config['pay_id'];//商户id
-        $obj2['partner_trade_no'] = $order_id;
+       $obj2['partner_trade_no'] = $order_id;
         $obj2['spbill_create_ip'] = '120.25.195.197';
         $obj2['openid'] = $open_id;//接收红包openid
         $obj2['amount'] = $money;
@@ -57,13 +58,13 @@ while (!$stopFlag) {
             $conn->query($sql);
             $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_success';
             $data = array('open_id' => $open_id,'shop_id'=>$row['shop_id']);
-            httpPost($url,$data);
+            httpPost($url,json_encode($data));
         } else if ($res == 'USER_ERROR') {
             $sql = 'update verify_refund set del_flag=1 where id=' . $row['id'];
             $conn->query($sql);
             $url = 'http://127.0.0.1:4151/pub?topic=luckymoney_fail';
             $data = array('open_id' => $open_id,'shop_id'=>$row['shop_id']);
-            httpPost($url,$data);
+            httpPost($url,json_encode($data));
         }
         $lastRow = $row['id'];
 

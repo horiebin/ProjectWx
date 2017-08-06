@@ -28,7 +28,7 @@ class ServerConfigDao(object):
             val = {'name_space': namespace, 'k': key}
             row = self.db.select(self.table, where='name_space=$name_space and k=$k', vars=val)[0]
             value = row.v
-            self.client.set(key, value)
+            self.client.set(namespace+'_'+key, value)
         return value
 
     def getNameSpaceByOriginalId(self, original_id):

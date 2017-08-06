@@ -19,7 +19,7 @@ import sys
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-web.config.debug = config.debug
+web.config.debug = True#config.debug
 
 urls = (
     '/wx', 'Handle',
@@ -30,7 +30,8 @@ urls = (
     '/cross_refund/cross', 'Cross',
     '/cross_refund/oauth2', 'Oauth2',
     '/cross_refund/page', 'CrossRefundPage',
-
+    '/cross_refund/submit', 'CrossRefundSubmit',
+    '/cross_refund/history', 'CrossRefundHistory',
 )
 app = web.application(urls, globals())
 if not config.debug :

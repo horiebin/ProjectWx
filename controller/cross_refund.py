@@ -34,6 +34,7 @@ class Cross:
 class CrossRefundPage:
     def GET(self):
         data = web.input()
+	print data
         code = data.code
         source_openid = data.state[0:28]
         shopid = data.state[28:]
@@ -69,7 +70,7 @@ class CrossRefundSubmit:
         shopSetting = ShopSettingDao().getSetting(shopid=shopId)
         if shopSetting['filter_orderid_flag'] == 1:
             # open filter function
-            if not OrderIdsDao().verifyByOrderID(orderId):
+            if not OrderIdsDao().verifyByOrderID(orderId,shopId):
                 return 'wrong'
         auto_pass = shopSetting['auto_pass_flag']
         if auto_pass == 1:
@@ -117,10 +118,11 @@ class CrossRefundHistory():
 class Oauth1():
     def GET(self):
         data = web.input()
-        shopid = data.shop_id
-        if not shopid:
-            shopid=0
-        namespace = ShopSettingDao().getSetting(shopid)['namespace']
+	shopid = int(data.shop_id)
+        if shopid == 0 :
+	    namespace = config.pay_namespace
+	else:
+            namespace = ShopSettingDao().getSetting(shopid)['namespace']
         oauth2('/cross_refund/oauth2','snsapi_base',shopid,namespace)
 
 
@@ -128,10 +130,8 @@ class Oauth2():
     def GET(self):
         data = web.input()
         code = data.code
-        shopid = data.state
-        if not shopid:
-            return u'请重新点击链接'
-        elif shopid == 0:
+        shopid = int(data.state)
+        if shopid == 0:
             source_namespace = config.pay_namespace
             source_openid = getOpenIdByCode(code, source_namespace)
             shopid = UserBelongDao().getShopIdByOpenId(source_openid)
@@ -141,4 +141,4 @@ class Oauth2():
         OpenidMatch().insertSourceUser(source_openid, source_namespace)
 
         namespace = config.pay_namespace
-        oauth2('/cross_refund/page', 'snsapi_base', source_openid+shopid, namespace)
+        oauth2('/cross_refund/page', 'snsapi_base', source_openid+str(shopid), namespace)

@@ -25,6 +25,7 @@ def oauth2(redictUrl,scope,state,namespace):
     target = r'https://open.weixin.qq.com/connect/oauth2/authorize?' \
              r'appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#' \
              r'wechat_redirect' % (appId, redictUrl, scope, state)
+    print target
     raise web.seeother(target)
 
 def getOpenIdByCode(code,namespace):
