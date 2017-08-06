@@ -5,10 +5,12 @@ try:
     import pylibmc as mc
 except ImportError:
     import memcache as mc
+from web.utils import ThreadedDict
 
 class Client():
     def __init__(self, prefix):
-        self.client = mc.Client(config.memcached_servers)
+        self.d = ThreadedDict()
+        self.d.client = mc.Client(config.memcached_servers)
         self.prefix = prefix
 
     def set(self,key,value):
@@ -17,11 +19,11 @@ class Client():
 	    print 'memcache set:'+key+':'+value
 	except:
 	    print 'memcache set:'+key
-        return self.client.set(key,value)
+        return self.d.client.set(key,value)
 
     def get(self,key):
         key = self.prefix + key
-        value = self.client.get(key)
+        value = self.d.client.get(key)
 	try:
 	    print 'memcache get:'+key+':'+value
 	except:

@@ -4,9 +4,10 @@ import hashlib
 from config import Config
 from dao.server_config import ServerConfigDao
 import web
-import urllib
+import urllib3
 import json
-import requests
+
+http = urllib3.PoolManager()
 
 def id_generator(size=16, chars=string.ascii_letters + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -33,11 +34,10 @@ def getOpenIdByCode(code,namespace):
     secret = ServerConfigDao().getValue(namespace,'app_secret')
     url = r'https://api.weixin.qq.com/sns/oauth2/access_token?' \
           r'appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appId,secret,code)
-    urlResp = urllib.urlopen(url)
-    t = urlResp.read()
-    urlResp = json.loads(t)
+    r = http.request('GET',url)
+    urlResp = json.loads(r.data)
     if 'openid' not in urlResp:
-        print t
+        print r.data
     return urlResp['openid']
 
 def addShopTagToUser(open_id,shop_tag_id,namespace):
@@ -45,8 +45,8 @@ def addShopTagToUser(open_id,shop_tag_id,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=%s' % accessToken
     data = {'openid_list':[open_id],'tagid':shop_tag_id}
     payload = json.dumps(data)
-    s = requests.post(target,data=payload)
-    res = json.loads(s.text)
+    s = http.request('POST',target,payload)
+    res = json.loads(s.data)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
 
@@ -55,10 +55,10 @@ def getUserTags(open_id,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s' %accessToken
     data = {'openid':open_id}
     payload = json.dumps(data)
-    s = requests.post(target,data=payload)
-    res = json.loads(s.text)
+    s = http.request('POST',target,payload)
+    res = json.loads(s.data)
     if 'tagid_list' not in res:
-	print s.text
+        print s.data
     tags = res['tagid_list']
     return tags
 
@@ -68,8 +68,8 @@ def deleteUserTag(open_id,tag,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=%s' %accessToken
     data = {'openid_list':[open_id],'tagid':tag}
     payload = json.dumps(data)
-    s = requests.post(target,data=payload)
-    res = json.loads(s.text)
+    s = http.request('POST',target,payload)
+    res = json.loads(s.data)
     if res['errcode'] != 0:
         print 'adding tag error:', s.text
 
@@ -78,6 +78,6 @@ def createTag(name,namespace):
     target = r'https://api.weixin.qq.com/cgi-bin/tags/create?access_token=%s' %accessToken
     data = {'tag':{'name':name}}
     payload = json.dumps(data)
-    s = requests.post(target,data=payload)
-    res = json.loads(s.text)
+    s = http.request('POST',target,payload)
+    res = json.loads(s.data)
     return res['tag']['id']
