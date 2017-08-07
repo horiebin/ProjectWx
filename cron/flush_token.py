@@ -10,27 +10,29 @@ import json
 
 def flush_config_task():
 
-    sc = ServerConfigDao()
     print('----start reflesh token----')
-    names = sc.getAllNamespace()
+    names = ServerConfigDao().getAllNamespace()
     for name in names:
-        appId = ServerConfigDao().getValue(name,'app_id')
-        appSecret = ServerConfigDao().getValue(name,'app_secret')
+        flush_token_name(name)
 
-        postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type="
-                   "client_credential&appid=%s&secret=%s" % (appId, appSecret))
-        urlResp = urllib.urlopen(postUrl)
-        urlResp = json.loads(urlResp.read())
+def flush_token_name(name):
+    appId = ServerConfigDao().getValue(name, 'app_id')
+    appSecret = ServerConfigDao().getValue(name, 'app_secret')
 
-        accessToken = urlResp['access_token']
-        sc.setValue(name,'access_token',accessToken)
+    postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type="
+               "client_credential&appid=%s&secret=%s" % (appId, appSecret))
+    urlResp = urllib.urlopen(postUrl)
+    urlResp = json.loads(urlResp.read())
 
-        url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
-        payload = {'access_token': accessToken, 'type': 'jsapi'}
-        resp = requests.get(url, params=payload)
-        r = json.loads(resp.content)
-        ticket = r['ticket']
-        sc.setValue(name,'jsapi_ticket',ticket)
+    accessToken = urlResp['access_token']
+    ServerConfigDao().setValue(name, 'access_token', accessToken)
+
+    url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
+    payload = {'access_token': accessToken, 'type': 'jsapi'}
+    resp = requests.get(url, params=payload)
+    r = json.loads(resp.content)
+    ticket = r['ticket']
+    ServerConfigDao().setValue(name, 'jsapi_ticket', ticket)
 
 if __name__ == "__main__":
     flush_config_task()

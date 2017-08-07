@@ -16,10 +16,14 @@ cur.execute('SET character_set_connection=utf8;')
 con.commit()
 
 namespace = raw_input('namespace,use which gong zhong hao?:')
-cur.execute('Select * from server_config WHERE name_space=%s',(namespace))
+cur.execute('Select * from server_config WHERE name_space=%s',[namespace])
 data = cur.fetchall()
+existname = True
 if len(data) == 0:
+    existname = False
     print 'no this gong zhong hao, now to create it'
+    cur.execute('Insert into server_config(name_space, k,v) VALUE (%s,%s,%s)', (namespace, 'access_token', ''))
+    cur.execute('Insert into server_config(name_space, k,v) VALUE (%s,%s,%s)', (namespace, 'jsapi_ticket', ''))
     app_id = raw_input('app_id:')
     cur.execute('Insert into server_config(name_space, k,v) VALUE (%s,%s,%s)',(namespace,'app_id',app_id))
     app_secret = raw_input('app_secret:')
@@ -55,8 +59,9 @@ cur.execute('Insert into log_change_money(shop_id,money ) VALUES (%s,%s)',(shop_
 con.commit()
 print 'finished!'
 
+
 print 'start create tag...'
-tagid = createTag('shop_%d'%shop_id)
+tagid = createTag('shop_%d'%shop_id,namespace)
 print 'finished! tag id : %d'%tagid
 
 print 'save tag id'
