@@ -6,6 +6,8 @@ from dao.server_config import ServerConfigDao
 import web
 import urllib3
 import json
+import warnings
+warnings.filterwarnings("ignore")
 
 http = urllib3.PoolManager()
 
@@ -24,7 +26,7 @@ def oauth2(redictUrl,scope,state,namespace):
     scope = scope
     state = state
     target = r'https://open.weixin.qq.com/connect/oauth2/authorize?' \
-             r'appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#' \
+             r'appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&connect_redirect=1#' \
              r'wechat_redirect' % (appId, redictUrl, scope, state)
     #print target
     raise web.seeother(target)

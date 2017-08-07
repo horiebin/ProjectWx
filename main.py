@@ -7,10 +7,6 @@ import web
 from util.log import Log
 import config
 from controller.handle import Handle
-from controller.re_fund import Refund
-from controller.re_fund import RefundSubmit
-from controller.re_fund import RefundHistory
-from controller.re_fund import RefundOauth
 from controller.verify import VerifyXwpay
 from controller.verify import VerifyGZChenlan
 

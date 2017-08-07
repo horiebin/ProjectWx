@@ -107,7 +107,6 @@ function uploadImage(currentId,serverIdList) {
 function postRequest(serverIdList) {
     var orderId = $("#orderInput").attr('value');
     var openId = $("#orderInput").attr('openId');
-    var shopId = $("#orderInput").attr('shopId');
     if(serverIdList.length == 0){
         alert('至少上传一张图片');
         return;
@@ -117,7 +116,7 @@ function postRequest(serverIdList) {
     $.ajax({
         type: "POST",
         url: "/cross_refund/submit",
-        data: {info:JSON.stringify({shop_id:shopId, open_id:openId,order_id: orderId, server_ids: serverIdList})},
+        data: {info:JSON.stringify({ open_id:openId,order_id: orderId, server_ids: serverIdList})},
         success: function (data) {
             if(data == 'true'){
                 alert('上传成功,等待审核，24小时内出结果');

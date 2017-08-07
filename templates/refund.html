@@ -1,4 +1,4 @@
-$def with (appId,sign,noncestr,timestamp,shopId,openId)
+$def with (appId,sign,noncestr,timestamp,openId)
 <html>
 <head>
   <meta charset="UTF-8">
@@ -14,7 +14,7 @@ $def with (appId,sign,noncestr,timestamp,shopId,openId)
         <footer class="ui-footer ui-footer-btn">
             <ul class="ui-tiled ui-border-t">
                 <li id="rulesBtu" class="ui-border-r"><div>活动规则</div></li>
-                <li class="ui-border-r"><div id="historyBtn"><a href="/cross_refund/history?openId=$openId&shopId=$shopId">我的奖励</a></div></li>
+                <li class="ui-border-r"><div id="historyBtn"><a href="/cross_refund/history?openId=$openId">我的奖励</a></div></li>
             </ul>
         </footer>
 
@@ -58,7 +58,7 @@ $def with (appId,sign,noncestr,timestamp,shopId,openId)
                 </ul>
             </section>
 
-            <input type="text" class="order-box" id="orderInput" openId="$openId" shopId="$shopId" placeholder="第2步：填写或复制粘贴购物订单编号">
+            <input type="text" class="order-box" id="orderInput" openId="$openId" placeholder="第2步：填写或复制粘贴购物订单编号">
 
             <button id='submit' class="ui-btn-lg ui-btn-primary" style="position: relative; top:5px">马上提交</button>
 

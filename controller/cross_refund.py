@@ -35,14 +35,9 @@ class Cross:
 class CrossRefundPage:
     def GET(self):
         data = web.input()
-	#print data
+        #print data
         code = data.code
-        source_openid = data.state[0:28]
-        shopid = data.state[28:]
-	if shopid == 'False':
-	    return u'请重新扫描二维码'
-        if not source_openid:
-            return u'请重新点击链接'
+        source_openid = data.state
 
         namespace = config.pay_namespace
         openid = getOpenIdByCode(code, namespace)
@@ -55,7 +50,7 @@ class CrossRefundPage:
         url = r'http://'+ServerConfigDao()['domin_name'] + web.ctx.fullpath
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
 
-        return render.refund(appId,sign,noncestr,timestamp,shopid,openid)
+        return render.refund(appId,sign,noncestr,timestamp,openid)
 
 class CrossRefundSubmit:
     def POST(self):
@@ -66,22 +61,23 @@ class CrossRefundSubmit:
         data = json.loads(data.info);
         serverIds = data['server_ids']
         orderId = data['order_id'].replace(' ','')
-        shopId = data['shop_id']
         openId = data['open_id']
         userUploadDao = UserUploadDao()
-	if shopId == 'False':
-	    return u'请重新扫描二维码'
+
+        row = OrderIdsDao().verifyByOrderID(orderId)
+        if not row:
+            return 'wrong'
+        shopId = row['shop_id']
+        UserBelongDao().insertOnUpdate(openId, shopId)
+
         shopSetting = ShopSettingDao().getSetting(shopid=shopId)
-        if shopSetting['filter_orderid_flag'] == 1:
-            # open filter function
-            if not OrderIdsDao().verifyByOrderID(orderId,shopId):
-                return 'wrong'
+
         auto_pass = shopSetting['auto_pass_flag']
         if auto_pass == 1:
             #check money is enough
             money = LogShopMoneyDao().getMoneyByShopId(shopid=shopId)
             effectRows = ShopAccountDao().reduceMoney(shopid=shopId,money=money)
-            
+
             if effectRows >0:
                 # only save basic information
                 res = userUploadDao.insertAutoPass(shopId, openId, orderId)
@@ -114,7 +110,8 @@ class CrossRefundHistory():
     def GET(self):
         data = web.input()
         openId = data.openId
-        shopId = data.shopId
+        shopId = UserBelongDao().getShopIdByOpenId(openId)
+
         userUploadDao = UserUploadDao()
         uploads = userUploadDao.selectByOpenId(shopId,openId)
         return render.history(uploads)
@@ -122,32 +119,16 @@ class CrossRefundHistory():
 class Oauth1():
     def GET(self):
         data = web.input()
-        shopid = int(data.shop_id)
-        if shopid == 0 :
-            namespace = config.pay_namespace
-        else:
-            namespace = ShopSettingDao().getSetting(shopid)['namespace']
-        oauth2('/cross_refund/oauth2','snsapi_base',shopid,namespace)
+        namespace = data.name
+        oauth2('/cross_refund/oauth2','snsapi_base',namespace,namespace)
 
 
 class Oauth2():
     def GET(self):
         data = web.input()
         code = data.code
-        shopid = int(data.state)
-        if shopid == 0:
-            source_namespace = config.pay_namespace
-            source_openid = getOpenIdByCode(code, source_namespace)
-            shopid = UserBelongDao().getShopIdByOpenId(source_openid)
-            if shopid == False:
-                tag = getUserTags(source_openid,source_namespace)[0]
-		print tag
-                shopid = int(shop_tag[str(tag)])
-                print shopid
-        else:
-            source_namespace = ShopSettingDao().getSetting(shopid)['namespace']
-            source_openid = getOpenIdByCode(code, source_namespace)
+        source_namespace = data.state
+        source_openid = getOpenIdByCode(code, source_namespace)
         OpenidMatch().insertSourceUser(source_openid, source_namespace)
-
         namespace = config.pay_namespace
-        oauth2('/cross_refund/page', 'snsapi_base', source_openid+str(shopid), namespace)
+        oauth2('/cross_refund/page', 'snsapi_base', source_openid, namespace)
