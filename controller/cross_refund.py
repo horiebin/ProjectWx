@@ -141,6 +141,7 @@ class Oauth2():
             shopid = UserBelongDao().getShopIdByOpenId(source_openid)
             if shopid == False:
                 tag = getUserTags(source_openid,source_namespace)[0]
+		print tag
                 shopid = int(shop_tag[str(tag)])
                 print shopid
         else:
