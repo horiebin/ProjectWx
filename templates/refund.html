@@ -1,4 +1,4 @@
-$def with (appId,sign,noncestr,timestamp,openId)
+$def with (appId,sign,noncestr,timestamp,openId,platform)
 <html>
 <head>
   <meta charset="UTF-8">
@@ -75,7 +75,12 @@ $def with (appId,sign,noncestr,timestamp,openId)
         <div class="ui-dialog-bd">
             <div>【请在24小时内查看您的奖励并及时领取红包哦】</div>
             <div>1、领取方式：</div>
-            <div>打开淘宝评价商品并将评价截图->返回微信输入您的购买订单编号->上传评价截图->商家审核->红包发放</div>
+            <div>打开
+                $if platform == 0:
+                    淘宝
+                $else:
+                    京东
+                评价商品并将评价截图->返回微信输入您的购买订单编号->上传评价截图->商家审核->红包发放</div>
             <div>&nbsp</div>
             <div>2、每人参与活动的次数有限，每天3次，每周5次，每月10次</div>
             <div>&nbsp</div>
@@ -90,7 +95,12 @@ $def with (appId,sign,noncestr,timestamp,openId)
 
 <style type="text/css">
     body{
-        background-image: url('/static/img/refund2.jpg') ;
+        background-image: url(
+        $if platform == 0:
+            '/static/img/refund2.jpg'
+        $else:
+            '/static/img/refund3.jpg'
+        ) ;
         background-color: #9A3E3E;
         background-position: center top;
     background-repeat: no-repeat;

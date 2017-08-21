@@ -13,6 +13,8 @@ from dao.log_change_money import LogShopMoneyDao
 from dao.shop_account import ShopAccountDao
 from dao.user_belong import UserBelongDao
 from dao.openid_match import OpenidMatch
+from dao.mp_info import MpInfoDao
+import numbers
 import json
 
 render = web.template.render('templates/')
@@ -37,7 +39,12 @@ class CrossRefundPage:
         data = web.input()
         #print data
         code = data.code
-        source_openid = data.state
+        source_openid = data.state[0:28]
+        source_namespace = data.state[28:]
+
+        source_app_id = ServerConfigDao().getValue(source_namespace,'app_id')
+        mp_setting = MpInfoDao().getSettingByAppid(source_app_id)
+        platform = mp_setting['platform']
 
         namespace = config.pay_namespace
         openid = getOpenIdByCode(code, namespace)
@@ -50,7 +57,7 @@ class CrossRefundPage:
         url = r'http://'+ServerConfigDao()['domin_name'] + web.ctx.fullpath
         sign = js_signature(noncestr,jsapi_token,timestamp,url)
 
-        return render.refund(appId,sign,noncestr,timestamp,openid)
+        return render.refund(appId,sign,noncestr,timestamp,openid,platform)
 
 class CrossRefundSubmit:
     def POST(self):
@@ -58,7 +65,7 @@ class CrossRefundSubmit:
         if len(data) == 0:
             return 'Hello, this is submit'
 
-        data = json.loads(data.info);
+        data = json.loads(data.info)
         serverIds = data['server_ids']
         orderId = data['order_id'].replace(' ','')
         openId = data['open_id']
@@ -131,4 +138,4 @@ class Oauth2():
         source_openid = getOpenIdByCode(code, source_namespace)
         OpenidMatch().insertSourceUser(source_openid, source_namespace)
         namespace = config.pay_namespace
-        oauth2('/cross_refund/page', 'snsapi_base', source_openid, namespace)
+        oauth2('/cross_refund/page', 'snsapi_base', source_openid + source_namespace , namespace)
