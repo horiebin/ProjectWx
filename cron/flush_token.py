@@ -21,9 +21,10 @@ def flush_token_name(name):
 
     postUrl = ("https://api.weixin.qq.com/cgi-bin/token?grant_type="
                "client_credential&appid=%s&secret=%s" % (appId, appSecret))
-    urlResp = urllib.urlopen(postUrl)
-    urlResp = json.loads(urlResp.read())
-
+    resp = urllib.urlopen(postUrl).read()
+    urlResp = json.loads(resp)
+    if 'access_token' not in urlResp:
+        print resp
     accessToken = urlResp['access_token']
     ServerConfigDao().setValue(name, 'access_token', accessToken)
 

@@ -47,17 +47,17 @@ def getOpenIdByCode(code,namespace):
         component_access_token = AdminConfigDao().getValue('admin','component_access_token')
         url = r'https://api.weixin.qq.com/sns/oauth2/component/access_token?' \
               r'appid=%s&code=%s&grant_type=authorization_code&component_appid=%s' \
-              r'&component_access_token=%s' %(appId,)
+              r'&component_access_token=%s' %(appId,code,component_appid,component_access_token)
     else:
         appId = ServerConfigDao().getValue(namespace,'app_id')
         secret = ServerConfigDao().getValue(namespace,'app_secret')
         url = r'https://api.weixin.qq.com/sns/oauth2/access_token?' \
               r'appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appId,secret,code)
-        r = http.request('GET',url)
-        urlResp = json.loads(r.data)
-        if 'openid' not in urlResp:
-            print r.data
-        return urlResp['openid']
+    r = http.request('GET',url)
+    urlResp = json.loads(r.data)
+    if 'openid' not in urlResp:
+        print r.data
+    return urlResp['openid']
 
 def addShopTagToUser(open_id,shop_tag_id,namespace):
     accessToken = ServerConfigDao().getValue(namespace,'access_token')

@@ -11,7 +11,7 @@ postJson = """
         {
             "name": "好评返现",
             "type": "view",
-            "url": "http://wx.51dingxiao.com/cross_refund/oauth1?shop_id=0"
+            "url": "http://wx.51dingxiao.com/cross_refund/oauth1?name=kuxiao"
         },
         {
             "name": "产品介绍",
@@ -72,7 +72,7 @@ postJson = """
         }
     ]
 }"""
-
-accessToken = Basic().get_access_token()
+from dao.server_config import ServerConfigDao
+accessToken = ServerConfigDao().getValue('kuxiao','access_token')
 #myMenu.delete(accessToken)
 myMenu.create(postJson, accessToken)

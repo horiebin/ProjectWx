@@ -37,7 +37,7 @@ class Cross:
 class CrossRefundPage:
     def GET(self):
         data = web.input()
-        #print data
+        print data
         code = data.code
         source_openid = data.state[0:28]
         source_namespace = data.state[28:]
