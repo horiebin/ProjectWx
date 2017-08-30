@@ -37,13 +37,17 @@ class Cross:
 class CrossRefundPage:
     def GET(self):
         data = web.input()
-        print data
         code = data.code
         source_openid = data.state[0:28]
         source_namespace = data.state[28:]
 
-        source_app_id = ServerConfigDao().getValue(source_namespace,'app_id')
-        mp_setting = MpInfoDao().getSettingByAppid(source_app_id)
+        if source_namespace.isdigit():
+            mp_setting = MpInfoDao().getSettingById(int(source_namespace))
+
+        else:
+            source_app_id = ServerConfigDao().getValue(source_namespace,'app_id')
+            mp_setting = MpInfoDao().getSettingByAppid(source_app_id)
+
         platform = mp_setting['platform']
 
         namespace = config.pay_namespace
