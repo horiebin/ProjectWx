@@ -19,7 +19,7 @@ class Client():
 
     def get(self,key):
         key = self.prefix + key
-	if not hasattr(self.d, 'client'):
-	    self.d.client = mc.Client(config.memcached_servers)
-	value = self.d.client.get(key)
-	return value
+        if not hasattr(self.d, 'client'):
+            self.d.client = mc.Client(config.memcached_servers)
+        value = self.d.client.get(key)
+        return value
